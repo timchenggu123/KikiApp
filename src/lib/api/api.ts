@@ -44,3 +44,15 @@ export const asyncQueryCard = async (cid: Number) => {
     return response.json();
 }
 
+export const asyncPostAddCard = async (did: Number, front: String, back: String) => {
+    const response = await fetch(SERVER_URL + `/deck/${did}/cards`, {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify({ front, back}),
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      return response.json();
+}
+
