@@ -8,11 +8,16 @@
 
     let card_data : TypeCard = $state({id:0, Front:"", Back:""});
     let side = $state(true);
-
+    let unknown = $state(0);
+    let learning = $state(0);
+    let review = $state(0);
+0
     async function fetchCard(){
         const res = await asyncGetStudy(parseInt($page.params.did));
-        console.log(res);
-        card_data = res;
+        card_data = res.card;
+        unknown = res.counts.new;
+        learning = res.counts.learning;
+        review = res.counts.review;
     }
     onMount(
         fetchCard
@@ -41,9 +46,9 @@
 </script>
 
 <div class="w-full h-5 rounded-md bg-slate-700 mb-4 shadow-xl border-b-2 border-b-slate-500 flex gap-4 px-4">
-    <div class="text-sm">New:</div>
-    <div class="text-sm">Learning:</div>
-    <div class="text-sm">Review:</div>
+    <div class="text-sm">New:{unknown}</div>
+    <div class="text-sm">Learning:{learning}</div>
+    <div class="text-sm">Review:{review}</div>
 </div>
 <Card {...card_data}/>
 <div class="m-0 p-3 w-full mb-20">
