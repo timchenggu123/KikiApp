@@ -6,9 +6,9 @@
 	
 </script>
 
-<div class="py-4">
-	<a class="btn btn-sm" href="/decks">⌂ Home</a>
-	<button class="btn btn-sm" onclick={showModal}>Add</button>
+<div class="py-4 grid grid-cols-5 gap-2">
+	<a class="btn btn-md" href="/decks">Home</a>
+	<button class="btn btn-md" onclick={showModal}>AddCard</button>
 </div>
 <dialog class="modal" id="addCardModal">
 	<AddCard />

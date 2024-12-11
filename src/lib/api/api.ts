@@ -45,7 +45,7 @@ export const asyncQueryCard = async (cid: Number) => {
 }
 
 export const asyncPostAddCard = async (did: Number, front: String, back: String) => {
-    const response = await fetch(SERVER_URL + `/deck/${did}/cards`, {
+    const response = await fetch(SERVER_URL + `/deck/${did}/add`, {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json',
