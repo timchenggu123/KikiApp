@@ -3,10 +3,12 @@ import { cards, decks} from "./dummy"
 export const getCard = (cid: Number)=>{
     for (var i = 0; i < cards.length; i ++){
         if (cards[i].id == cid){
-            return cards[i];
+            return {
+                card_data:cards[i], 
+                total: cards.length};
         }
     }
-    return undefined;
+    return {card_data:undefined, total:0};
 }
 
 export const getDeck = (did: Number) => {

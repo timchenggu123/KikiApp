@@ -1,10 +1,18 @@
 <!-- src/DeckBrowser.svelte -->  
 <script lang="ts">  
-	import { getDeck } from '$lib/dummy/adapter';  
+	// import { getDeck } from '$lib/dummy/adapter';  
+	import {asyncGetDeckCards} from '$lib/api/api';
+	import type { Card } from '$lib/api/types';
 	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	// import { cards } from '$lib/dummy/dummy';
 
-	let deck = getDeck(parseInt($page.params.did));
-	export let cards = deck ? deck.cards: [];
+	let cards : Card[] = $state([{id:0, Front:"", Back:""}]);
+	onMount(async () => {
+		const res = await asyncGetDeckCards(parseInt($page.params.did));
+		console.log(res);
+		cards = res;
+	});
 </script>  
 	
 <h2>Cards</h2>  
@@ -15,10 +23,10 @@
 				{card.id}
 			</a>
 			<div class="col-start2">
-				{card.front}
+				{card.Front}
 			</div>
 			<div class="col-start-3">
-				{card.back}
+				{card.Back}
 			</div>
 		</div>
 	{/each}  
