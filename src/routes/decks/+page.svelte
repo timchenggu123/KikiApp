@@ -27,7 +27,7 @@
 {#each decks as deck}
 	<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 		<div class="flex justify-end">
-			<a class="flex flex-grow h-full align-middle flex-wrap" href={`/study/`+ deck.id}>{deck.name}></a>
+			<a class="flex flex-grow h-full align-middle flex-wrap" href={`/study/`+ deck.id}>{deck.name}</a>
 			<a class="btn-circle btn-sm text-2xl text-center" href={`/decks/` + deck.id}>👓</a>
 			<a class="btn-circle btn-sm text-2xl text-center">⚙</a>
 		</div> 

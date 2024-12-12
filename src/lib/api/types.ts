@@ -4,7 +4,8 @@ export type TypeDeck = {
   };
 
 export type TypeCard = {
-    id: number;
+    cid: number;
     Front: string;
     Back: string;
+    Media: string;
   };  

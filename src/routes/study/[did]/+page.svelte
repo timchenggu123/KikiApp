@@ -6,15 +6,16 @@
     import { asyncGetStudy, asyncPostStudyAnswer } from "$lib/api/api";
     import { page } from '$app/stores';
 
-    let card_data : TypeCard = $state({id:0, Front:"", Back:""});
-    let side = $state(true);
+    let card_data : TypeCard = $state({cid:0, Front:"", Back:"", Media:""});
     let unknown = $state(0);
     let learning = $state(0);
     let review = $state(0);
-0
+
     async function fetchCard(){
         const res = await asyncGetStudy(parseInt($page.params.did));
         card_data = res.card;
+        card_data.Media = "/src/lib/dummy/1_a.mp3";
+        console.log(card_data);
         unknown = res.counts.new;
         learning = res.counts.learning;
         review = res.counts.review;
@@ -25,22 +26,22 @@
 
     async function handleAnswer1(){
         const time =  Date.now()/1000
-        const res = await asyncPostStudyAnswer(card_data.id, 1, time);
+        const res = await asyncPostStudyAnswer(card_data.cid, 1, time);
         await fetchCard();
     }
     async function handleAnswer2(){
         const time =  Date.now()/1000
-        const res = await asyncPostStudyAnswer(card_data.id, 2, time);
+        const res = await asyncPostStudyAnswer(card_data.cid, 2, time);
         await fetchCard();
     }
     async function handleAnswer3(){
         const time =  Date.now()/1000
-        const res = await asyncPostStudyAnswer(card_data.id, 3, time);
+        const res = await asyncPostStudyAnswer(card_data.cid, 3, time);
         await fetchCard();
     }
     async function handleAnswer4(){
         const time =  Date.now()/1000
-        const res = await asyncPostStudyAnswer(card_data.id, 4, time);
+        const res = await asyncPostStudyAnswer(card_data.cid, 4, time);
         await fetchCard();
     }
 </script>
