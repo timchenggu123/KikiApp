@@ -5,16 +5,23 @@
 	import { onMount } from "svelte";
     import { asyncGetStudy, asyncPostStudyAnswer } from "$lib/api/api";
     import { page } from '$app/stores';
+	import CardTools from "../../../components/CardTools.svelte";
 
     let card_data : TypeCard = $state({cid:0, Front:"", Back:"", Media:""});
     let unknown = $state(0);
     let learning = $state(0);
     let review = $state(0);
+    let cur_card_id = $state(-1);
+    
+    let setCurCardId = (id:number) => {
+        cur_card_id = id;
+    }
 
     async function fetchCard(){
         const res = await asyncGetStudy(parseInt($page.params.did));
         card_data = res.card;
         card_data.Media = "/src/lib/dummy/1_a.mp3";
+        setCurCardId(card_data.cid);
         console.log(card_data);
         unknown = res.counts.new;
         learning = res.counts.learning;
@@ -23,6 +30,7 @@
     onMount(
         fetchCard
     );
+
 
     async function handleAnswer1(){
         const time =  Date.now()/1000
@@ -45,7 +53,7 @@
         await fetchCard();
     }
 </script>
-
+<CardTools cur_card_id={cur_card_id}/>
 <div class="w-full h-5 rounded-md bg-slate-700 mb-4 shadow-xl border-b-2 border-b-slate-500 flex gap-4 px-4">
     <div class="text-sm">New:{unknown}</div>
     <div class="text-sm">Learning:{learning}</div>

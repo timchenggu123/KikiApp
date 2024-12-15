@@ -1,43 +1,22 @@
 <script lang="ts">
-    import { asyncGetDecks, asyncPostAddCard } from "$lib/api/api";
-    import type { TypeDeck } from "$lib/api/types";
-    import { onMount } from "svelte";
-    let front = $state("");
-    let back = $state("");
-    let currentDeck = $state("<Please Select A Deck>");
-    const closeModal = () => {
-        (document.getElementById("addCardModal") as HTMLDialogElement)?.close();
-    }
-    let decks: TypeDeck[] = $state([])// List of decks
-    onMount(async () => {
-        let res = await asyncGetDecks();
-        decks = res;
-    });
-    let selectedDeck: Number = -1; // Variable to store the selected deck
-    function handleSelect(event:any) {
-        selectedDeck = event.target.value;
-        console.log(selectedDeck);
-    }
-    async function addCard() {
-        await asyncPostAddCard(selectedDeck, front, back);
-        closeModal();
-    }
+    import AddCardFromRaw from "./AddCardRaw.svelte";
+    import AddCardFromCurrent from "./AddCardFromCurrent.svelte";
+    let {cur_card_id} = $props();
+    let addCardRawId = "addCardRawModal";
+    let addCardFromId = "addCardFromModal";
+	function showModal1() {
+		(document.getElementById(addCardRawId) as HTMLDialogElement)?.showModal();
+	}
+	function showModal2() {
+		(document.getElementById(addCardFromId) as HTMLDialogElement)?.showModal();
+	}
 </script>
-
-<div class="modal-box">
-    <h3 class="text-lg font-bold pb-4">Adding a new card!</h3>
-    <div class="flex flex-col gap-2 justify-start">
-        <select id="deck-select" onchange={handleSelect} class="rounded-md bg-base-100">
-            <option value="" disabled selected>-- Select a Deck --</option>
-            {#each decks as deck}
-              <option value={deck.id}>{deck.name}</option>
-            {/each}
-        </select>
-        <textarea bind:value={front} placeholder="Front" class="border-gray-600 input h-full"></textarea>
-        <textarea bind:value={back}  placeholder="Back"  class="border-gray-600 input h-full"></textarea>
-        <div class="grid grid-cols-4 grap-3">
-            <button class="btn col-start-1 bg-blue-700" onclick={addCard}>Add</button>
-            <button class="btn col-start-4" onclick={closeModal}>Close</button>
-        </div>
-    </div>
+<div class="dropdown">
+<div tabindex="0" role="button" class="btn btn-outline w-full">Add</div>
+    <ul tabindex=-1 class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+      <li><a onclick={showModal1}>Raw</a></li>
+      <li><a onclick={showModal2}>Current</a></li>
+    </ul>
+    <AddCardFromRaw id={addCardRawId}/>
+    <AddCardFromCurrent id={addCardFromId} cur_card_id={cur_card_id}/>
 </div>

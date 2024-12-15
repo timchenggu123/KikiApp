@@ -1,5 +1,6 @@
 <script lang="ts">
-    import Header from '../Header.svelte';
+    import CardTools from '../../components/CardTools.svelte';
+import Header from '../Header.svelte';
 	let { children } = $props();
 </script>
 
