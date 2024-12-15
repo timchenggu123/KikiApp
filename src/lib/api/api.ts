@@ -1,7 +1,5 @@
 // import { cards, decks } from "../dummy";
 import { SERVER_URL } from "./common";
-import backend from "./backend";
-import axios from 'axios';
 
 export const asyncGetDecks = async () => {
   const response = await fetch(SERVER_URL + '/decks', {
@@ -64,4 +62,10 @@ export const asyncGetAddCardFromCard = async (did: Number, cid: Number) => {
     return response.json();
 }
 
-
+export const asyncRemoveCard = async (cid: Number) => {
+    const response = await fetch(SERVER_URL + `/card/remove/${cid}`, {
+        method: 'GeT',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      return response.json();
+}
