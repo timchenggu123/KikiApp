@@ -1,6 +1,5 @@
 <script lang="ts">
     import Card from "../../../components/Card.svelte";
-    // import { getCard} from "$lib/dummy/adapter";
     import type { TypeCard } from '$lib/api/types';
 	import { onMount } from "svelte";
     import { asyncGetStudy, asyncPostStudyAnswer } from "$lib/api/api";
@@ -12,6 +11,7 @@
     let learning = $state(0);
     let review = $state(0);
     let cur_card_id = $state(-1);
+    let ready = $state(false);
     
     let setCurCardId = (id:number) => {
         cur_card_id = id;
@@ -26,6 +26,7 @@
         unknown = res.counts.new;
         learning = res.counts.learning;
         review = res.counts.review;
+        ready = true;
     }
     onMount(
         fetchCard
@@ -59,7 +60,9 @@
     <div class="text-sm">Learning:{learning}</div>
     <div class="text-sm">Review:{review}</div>
 </div>
+{#if ready}
 <Card {...card_data}/>
+{/if}
 <div class="m-0 p-3 w-full mb-20">
     <div class="grid grid-cols-4 gap-4">
         <button class="btn shadow-xl bg-red-700 border-b-2 border-red-500" onclick={handleAnswer1}>Again</button>
