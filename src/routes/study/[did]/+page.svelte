@@ -20,7 +20,6 @@
     async function fetchCard(){
         const res = await asyncGetStudy(parseInt($page.params.did));
         card_data = res.card;
-        card_data.Media = "/src/lib/dummy/1_a.mp3";
         setCurCardId(card_data.cid);
         console.log(card_data);
         unknown = res.counts.new;

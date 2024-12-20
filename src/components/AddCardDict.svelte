@@ -12,8 +12,9 @@
     let word = $state("");
     let origin = $state("");
     let phonetic = $state("");
-    let meanings_text = $state("");
+    let meanings = $state([""]);
     let audio = $state("");
+    let meanings_text = $state("");
 
     const closeModal = () => {
         (document.getElementById(id) as HTMLDialogElement)?.close();
@@ -29,6 +30,7 @@
         console.log(selectedDeck);
     }
     async function addCard() {
+        console.log(front, back);
         await asyncPostAddCardRaw(selectedDeck, front, back);
         closeModal();
     }
@@ -43,8 +45,12 @@
         word = res.word;
         origin = res.origin;
         phonetic = res.phonetic;
-        meanings_text = res.meanings;
+        meanings = res.meanings;
+        meanings_text = meanings.join("\n");
         audio = res.audio;
+        
+        front = `${word}\n${phonetic}\n<div class="flex flex-row justify-center"><audio src=${audio} controls></audio></div>`;
+        back = `${meanings_text}`;
     }
 </script>
 
@@ -68,10 +74,10 @@
                 <h1>{word}</h1>
                 <h2>{origin}</h2>
                 <h3>{phonetic}</h3>
-                {#each meanings_text as meaning}
+                <audio src={audio} controls></audio>
+                {#each meanings as meaning}
                     <p>{meaning}</p>
                 {/each}
-                <audio src={audio} controls></audio>
             </div>
             {/if}
 
