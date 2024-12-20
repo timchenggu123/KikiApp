@@ -16,7 +16,7 @@
         <!-- <audio src={`${SERVER_URL}/card/${card_data.cid}/back/audio`} class={`p-1 h-[3rem] ` + (side ? `hidden` : ``)} controls></audio>
         <audio src={`${SERVER_URL}/card/${card_data.cid}/front/audio`} class={`p-1 h-[3rem] ` + (side ? `` : `hidden`)} controls></audio> -->
         <div class="flex-grow w-full">
-            <iframe title="card_front" class={"text-xl min-h-full w-full " + (side ? `` : `hidden`)} srcdoc={base_element + card_data.Front}>
+            <iframe title="card_front" class={`text-xl min-h-full w-full ` + (side ? `` : `hidden`)} srcdoc={base_element + card_data.Front}>
                 <!-- {@html card_data ? card_data.Front : `Non-existent`}  -->
             </iframe>
             <iframe title="card_back" class={`text-xl min-h-full w-full ` + (side ? `hidden` : ``)} srcdoc={base_element + card_data.Back}>

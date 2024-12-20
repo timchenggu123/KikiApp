@@ -41,10 +41,10 @@
         origin = res.origin;
         phonetic = res.phonetic;
         meanings = res.meanings;
-        meanings_text = meanings.join("\n");
+        meanings_text = meanings.join("<br/>");
         audio = res.audio;
         
-        front = `${word}\n${phonetic}\n<div class="flex flex-row justify-center"><audio src=${audio} controls></audio></div>`;
+        front = `${word}<br/>${phonetic}\n<div class="flex flex-row justify-center"><audio src=${audio} controls></audio></div>`;
         back = `${meanings_text}`;
     }
 </script>
