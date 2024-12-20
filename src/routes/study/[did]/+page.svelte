@@ -10,15 +10,17 @@
     let unknown = $state(0);
     let learning = $state(0);
     let review = $state(0);
-    let cur_card_id = $state(-1);
+    let curCardID = $state(-1);
     let ready = $state(false);
+    let did = $state(-1);
     
     let setCurCardId = (id:number) => {
-        cur_card_id = id;
+        curCardID = id;
     }
 
     async function fetchCard(){
-        const res = await asyncGetStudy(parseInt($page.params.did));
+        did = parseInt($page.params.did)
+        const res = await asyncGetStudy(did);
         card_data = res.card;
         setCurCardId(card_data.cid);
         console.log(card_data);
@@ -53,7 +55,7 @@
         await fetchCard();
     }
 </script>
-<CardTools cur_card_id={cur_card_id}/>
+<CardTools curCardID={curCardID} curDeck={did}/>
 <div class="w-full h-5 rounded-md bg-slate-700 mb-4 shadow-xl border-b-2 border-b-slate-500 flex gap-4 px-4">
     <div class="text-sm">New:{unknown}</div>
     <div class="text-sm">Learning:{learning}</div>

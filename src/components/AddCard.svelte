@@ -2,7 +2,7 @@
     import AddCardFromRaw from "./AddCardRaw.svelte";
     import AddCardFromCurrent from "./AddCardFromCurrent.svelte";
 	import AddCardDict from "./AddCardDict.svelte";
-    let {cur_card_id} = $props();
+    let {curCardID, curDeck} = $props();
     let addCardRawId = "addCardRawModal";
     let addCardFromId = "addCardFromModal";
     let addCardDictId = "addCardDictModal";
@@ -24,6 +24,6 @@
         <li><a onclick={showModal3}>Word</a></li>
     </ul>
     <AddCardFromRaw id={addCardRawId}/>
-    <AddCardFromCurrent id={addCardFromId} cur_card_id={cur_card_id}/>
-    <AddCardDict id={addCardDictId}/>
+    <AddCardFromCurrent id={addCardFromId} curCardID={curCardID}/>
+    <AddCardDict id={addCardDictId} curDeck={curDeck}/>
 </div>

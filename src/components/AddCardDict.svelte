@@ -3,7 +3,7 @@
     import type { TypeDeck } from "$lib/api/types";
 	import { asyncQueryWordRaw, parseRaw } from "$lib/dict/dictionaryApiDev";
     import { onMount } from "svelte";
-    let { id } = $props();
+    let { id, curDeck } = $props();
     let front = $state("");
     let back = $state("");
     let queryWord = $state("");
@@ -24,14 +24,9 @@
         let res = await asyncGetDecks();
         decks = res;
     });
-    let selectedDeck: Number = -1; // Variable to store the selected deck
-    function handleSelect(event:any) {
-        selectedDeck = event.target.value;
-        console.log(selectedDeck);
-    }
     async function addCard() {
         console.log(front, back);
-        await asyncPostAddCardRaw(selectedDeck, front, back);
+        await asyncPostAddCardRaw(curDeck, front, back);
         closeModal();
     }
     async function searchWord() {
@@ -58,13 +53,6 @@
     <div class="modal-box">
         <h3 class="text-lg font-bold pb-4">Adding a new card!</h3>
         <div class="flex flex-col gap-2 justify-start">
-            <select id="deck-select" onchange={handleSelect} class="rounded-md bg-base-100">
-                <option value="" disabled selected>-- Select a Deck --</option>
-                {#each decks as deck}
-                <option value={deck.id}>{deck.name}</option>
-                {/each}
-            </select>
-            
             <div class="flex flex-row w-full justify-center p-2 gap-1"> 
                 <input type="text" placeholder="Search Word" bind:value={queryWord} class="input intput-bordered bg-base-300 w-full max-w-xs">
                 <button class="btn bg-blue-700" onclick={searchWord}>Search</button>
