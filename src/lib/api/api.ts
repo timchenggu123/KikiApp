@@ -69,3 +69,43 @@ export const asyncRemoveCard = async (cid: Number) => {
       });
       return response.json();
 }
+
+export const asyncGetDeckConfig = async (did: Number) => {
+    const response = await fetch(SERVER_URL + `/deck/config/${did}`, {
+        method: 'Get',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      return response.json();
+}
+
+export const asyncPostDeckConfig = async (did: Number, config: any) => {
+    const response = await fetch(SERVER_URL + `/deck/config/${did}`, {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify(config),
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      return response.json();
+}
+
+export const asyncRemoveDeck = async (did: Number) => {
+    const response = await fetch(SERVER_URL + `/deck/remove/${did}`, {
+        method: 'Get',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      return response.json();
+}
+
+export const asyncPostAddDeck = async (name: String) => {
+    const response = await fetch(SERVER_URL + `/deck/add`, {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify({ name }),
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      return response.json();
+}
