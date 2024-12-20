@@ -7,5 +7,4 @@ export type TypeCard = {
     cid: number;
     Front: string;
     Back: string;
-    Media: string;
   };  
