@@ -27,7 +27,7 @@ export async function logout(): Promise<void> {
 }
 
 export async function register(username: string, password: string): Promise<void> {
-  const response = await fetch('/register', {
+  const response = await fetch(SERVER_URL + '/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
