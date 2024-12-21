@@ -1,12 +1,15 @@
 // import { cards, decks } from "../dummy";
-import { SERVER_URL } from "./common";
+import { SERVER_URL, checkResponse } from "./common";
 
 export const asyncGetDecks = async () => {
   const response = await fetch(SERVER_URL + '/decks', {
     method: 'Get',
     credentials: 'include', // Include cookies for cross-origin requests
   });
-  return response.json();
+  if (checkResponse(response)) {
+    return response.json();
+  }
+  return {};
 };
 
 export const asyncGetDeckCards = async (did: Number) => {
@@ -14,7 +17,10 @@ export const asyncGetDeckCards = async (did: Number) => {
         method: 'Get',
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 };
 
 export const asyncGetStudy = async (did: Number) => {
@@ -22,7 +28,10 @@ export const asyncGetStudy = async (did: Number) => {
         method: 'Get',
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 };
 
 export const asyncPostStudyAnswer = async (cid: Number, rating: Number, time_started: Number) => {
@@ -34,12 +43,18 @@ export const asyncPostStudyAnswer = async (cid: Number, rating: Number, time_sta
         body: JSON.stringify({ cid, rating, time_started}),
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 }
 
 export const asyncQueryCard = async (cid: Number) => {
     const response = await fetch(`/api/cards/${cid}`);
-    return response.json();
+    if (checkResponse(response)) {
+        return response.json();
+    }
+    return {};
 }
 
 export const asyncPostAddCardRaw = async (did: Number, front: String, back: String) => {
@@ -51,7 +66,10 @@ export const asyncPostAddCardRaw = async (did: Number, front: String, back: Stri
         body: JSON.stringify({ front, back}),
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 }
 
 export const asyncGetAddCardFromCard = async (did: Number, cid: Number) => {
@@ -59,7 +77,10 @@ export const asyncGetAddCardFromCard = async (did: Number, cid: Number) => {
       method: 'Get',
       credentials: 'include', // Include cookies for cross-origin requests
     });
-    return response.json();
+    if (checkResponse(response)) {
+      return response.json();
+    }
+    return {};
 }
 
 export const asyncRemoveCard = async (cid: Number) => {
@@ -67,7 +88,10 @@ export const asyncRemoveCard = async (cid: Number) => {
         method: 'GeT',
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 }
 
 export const asyncGetDeckConfig = async (did: Number) => {
@@ -75,7 +99,10 @@ export const asyncGetDeckConfig = async (did: Number) => {
         method: 'Get',
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 }
 
 export const asyncPostDeckConfig = async (did: Number, config: any) => {
@@ -87,7 +114,10 @@ export const asyncPostDeckConfig = async (did: Number, config: any) => {
         body: JSON.stringify(config),
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 }
 
 export const asyncRemoveDeck = async (did: Number) => {
@@ -95,7 +125,10 @@ export const asyncRemoveDeck = async (did: Number) => {
         method: 'Get',
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 }
 
 export const asyncPostAddDeck = async (name: String) => {
@@ -107,5 +140,8 @@ export const asyncPostAddDeck = async (name: String) => {
         body: JSON.stringify({ name }),
         credentials: 'include', // Include cookies for cross-origin requests
       });
-      return response.json();
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
 }
