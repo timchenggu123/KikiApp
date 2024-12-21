@@ -23,7 +23,6 @@
         const res = await asyncGetStudy(did);
         card_data = res.card;
         setCurCardId(card_data.cid);
-        console.log(card_data);
         unknown = res.counts.new;
         learning = res.counts.learning;
         review = res.counts.review;

@@ -8,7 +8,6 @@
 	let cards : TypeCard[] = $state([{cid:0, Front:"", Back:""}]);
 	onMount(async () => {
 		const res = await asyncGetDeckCards(parseInt($page.params.did));
-		console.log(res);
 		cards = res;
 	});
 </script>  

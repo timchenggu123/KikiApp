@@ -15,14 +15,11 @@
 	onMount(async () => {
 		const res:[TypeDeck] = await asyncGetDecks();
 		decks = res;
-		console.log(res);
 	});
 	async function selectDeck(deck:any) { 
 		selectedDid = deck.id;
 		config = await asyncGetDeckConfig(deck.id);
-		console.log(config);
 		if (config === undefined) {
-			console.log("No config found");
 			return;
 		}
 		new_number = config.new.perDay;
@@ -37,9 +34,7 @@
 	}
 
 	async function configDeck() {
-		console.log(selectedDid, new_number, review_number);
 		if (config === undefined) {
-			console.log("No config found");
 			return;
 		}
 		config.new.perDay = new_number;
@@ -49,7 +44,6 @@
 	}
 
 	async function deleteDeck() {
-		console.log(selectedDid);
 		const confirm = window.confirm("Are you sure you want to delete this deck?");
 		if (confirm) {
 			await asyncRemoveDeck(selectedDid);

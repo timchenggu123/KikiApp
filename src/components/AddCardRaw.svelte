@@ -16,7 +16,6 @@
     let selectedDeck: Number = -1; // Variable to store the selected deck
     function handleSelect(event:any) {
         selectedDeck = event.target.value;
-        console.log(selectedDeck);
     }
     async function addCard() {
         await asyncPostAddCardRaw(selectedDeck, front, back);
