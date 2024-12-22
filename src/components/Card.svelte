@@ -1,8 +1,19 @@
 <script lang="ts">
     import {SERVER_URL} from "$lib/api/common";
+    let {card_data} = $props();
     let side = $state(true);
-    let card_data = $props();
-
+    let init = $state(true);
+    $effect(() => {
+        if (card_data) {
+            init = true;
+        }
+    });
+    $effect(() => {
+        if (init) {
+            side = true;
+            init = false;
+        }
+    });
     const base_element = `<base href="${SERVER_URL}/media/" />`;
     // This is used by generated code, so it needs to be a top-level variable
     //compile card front and back as svelte components

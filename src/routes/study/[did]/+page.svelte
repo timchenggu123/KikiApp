@@ -61,7 +61,7 @@
     <div class="text-sm">Review:{review}</div>
 </div>
 {#if ready}
-<Card {...card_data}/>
+<Card card_data={card_data}/>
 {/if}
 <div class="m-0 p-3 w-full mb-20">
     <div class="grid grid-cols-4 gap-4">
