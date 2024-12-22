@@ -1,5 +1,5 @@
 <script lang="ts">
-	import kiki_logo from "$lib/images/kki_logo.png"
+	import kiki_logo from "$lib/images/kiki_logo.png"
 	
 </script>
 

@@ -1,10 +1,11 @@
 <script lang="ts">
+import kiki_logo from "$lib/images/kiki_logo.png"
 
 </script>
 
 <div class="mt-4 mb-2 grid grid-cols-5 gap-2">
 	<a href="/decks" aria-label="Home" class="flex flex-row">
-	  	<img src="/src/lib/images/kki_logo.png" class="h-15 w-15 p-2"/>
+	  	<img src={kiki_logo} class="h-15 w-15 p-2"/>
 		<!-- <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-5 w-5"
