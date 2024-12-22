@@ -4,6 +4,7 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import type {TypeDeck} from "$lib/api/types";
+	import FileInput from "../../components/UploadDeck.svelte";
 
 	
 	let decks: TypeDeck[] = $state([]);
@@ -54,7 +55,7 @@
 		decks = await asyncGetDecks();
 	}
 
-	async function addDeck() {
+	async function addNewDeck() {
 		const name = window.prompt("Enter the name of the deck");
 		if (name === null) {
 			return;
@@ -63,10 +64,23 @@
 		// Refresh the decks
 		decks = await asyncGetDecks();
 	}
+
+	async function showUploadModal(){
+		const dialog = document.getElementById('uploadDeckMoal') as HTMLDialogElement;
+		dialog.showModal();
+		return;
+	}
 </script>  
 <div class="flex flex-row justify-between items-center px-2">
 	<h2 class="p-2 text-2xl text-bold">All Decks</h2> 
-	<button class="btn btn-circle btn-sm text-xl text-center" onclick={addDeck}><p class="m-auto">+</p></button>
+	<!-- <button class="" ><p class="m-auto">+</p></button> -->
+	<details class="dropdown dropdown-end">
+		<summary class="btn btn-circle btn-sm text-xl text-center"><p class="m-auto">+</p></summary>
+		<ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+		  <li onclick={addNewDeck}><a>New</a></li>
+		  <li onclick={showUploadModal}><a>Upload</a></li>
+		</ul>
+	</details>
 </div>	
 <ul class="menu bg-base-200 rounded-box w-full max-w-[30rem]">  
 {#each decks as deck}
@@ -104,4 +118,5 @@
     </div>
 </dialog>
 
+<FileInput id="uploadDeckMoal" refreshDecks={async ()=>{decks = await asyncGetDecks();}}/>
 </ul> 

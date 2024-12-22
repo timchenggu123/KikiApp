@@ -145,3 +145,17 @@ export const asyncPostAddDeck = async (name: String) => {
       }
       return {};
 }
+
+export const asyncPostUploadDeck = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await fetch(SERVER_URL + `/upload/deck`, {
+        method: 'Post',
+        body: formData,
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return {};
+}
