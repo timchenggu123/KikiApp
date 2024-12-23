@@ -9,7 +9,7 @@ export const asyncGetDecks = async () => {
   if (checkResponse(response)) {
     return response.json();
   }
-  return {};
+  return undefined;
 };
 
 export const asyncGetDeckCards = async (did: Number) => {
@@ -20,7 +20,7 @@ export const asyncGetDeckCards = async (did: Number) => {
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 };
 
 export const asyncGetStudy = async (did: Number) => {
@@ -31,7 +31,7 @@ export const asyncGetStudy = async (did: Number) => {
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 };
 
 export const asyncPostStudyAnswer = async (cid: Number, rating: Number, time_started: Number) => {
@@ -46,7 +46,7 @@ export const asyncPostStudyAnswer = async (cid: Number, rating: Number, time_sta
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 }
 
 export const asyncQueryCard = async (cid: Number) => {
@@ -54,7 +54,7 @@ export const asyncQueryCard = async (cid: Number) => {
     if (checkResponse(response)) {
         return response.json();
     }
-    return {};
+    return undefined;
 }
 
 export const asyncPostAddCardRaw = async (did: Number, front: String, back: String) => {
@@ -69,7 +69,7 @@ export const asyncPostAddCardRaw = async (did: Number, front: String, back: Stri
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 }
 
 export const asyncGetAddCardFromCard = async (did: Number, cid: Number) => {
@@ -80,7 +80,7 @@ export const asyncGetAddCardFromCard = async (did: Number, cid: Number) => {
     if (checkResponse(response)) {
       return response.json();
     }
-    return {};
+    return undefined;
 }
 
 export const asyncRemoveCard = async (cid: Number) => {
@@ -91,7 +91,7 @@ export const asyncRemoveCard = async (cid: Number) => {
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 }
 
 export const asyncGetDeckConfig = async (did: Number) => {
@@ -102,7 +102,7 @@ export const asyncGetDeckConfig = async (did: Number) => {
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 }
 
 export const asyncPostDeckConfig = async (did: Number, config: any) => {
@@ -117,7 +117,7 @@ export const asyncPostDeckConfig = async (did: Number, config: any) => {
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 }
 
 export const asyncRemoveDeck = async (did: Number) => {
@@ -128,7 +128,7 @@ export const asyncRemoveDeck = async (did: Number) => {
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 }
 
 export const asyncPostAddDeck = async (name: String) => {
@@ -143,7 +143,7 @@ export const asyncPostAddDeck = async (name: String) => {
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 }
 
 export const asyncPostUploadDeck = async (file: File) => {
@@ -157,5 +157,5 @@ export const asyncPostUploadDeck = async (file: File) => {
       if (checkResponse(response)) {
         return response.json();
       }
-      return {};
+      return undefined;
 }

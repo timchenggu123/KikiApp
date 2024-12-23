@@ -9,6 +9,8 @@ export function checkResponse(response: any) {
         // Redirect to login page
         goto('/auth/login'); // Or window.location.href = '/login';
         return false;
+    }else if (!response.ok){
+        return false
     }
     return true;
 }

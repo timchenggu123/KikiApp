@@ -24,8 +24,6 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="rounded-box gradient-div max-h-[35em] h-full shadow-xl border-b-2 border-b-zinc-500 overflow-y-auto">
     <div class={"relative rounded-box !nightMode card-compact h-full w-full bg-gray-200 backdrop-blur-xl flex flex-col " + (side ? "bg-opacity-80" : "bg-opacity-90")} onclick={()=>{side=!side}}>
-        <!-- <audio src={`${SERVER_URL}/card/${card_data.cid}/back/audio`} class={`p-1 h-[3rem] ` + (side ? `hidden` : ``)} controls></audio>
-        <audio src={`${SERVER_URL}/card/${card_data.cid}/front/audio`} class={`p-1 h-[3rem] ` + (side ? `` : `hidden`)} controls></audio> -->
         <div class="flex-grow w-full">
             <iframe title="card_front" allowtransparency={true} class={`text-xl min-h-full w-full ` + (side ? `` : `hidden`)} srcdoc={base_element + card_data.Front}>
                 <!-- {@html card_data ? card_data.Front : `Non-existent`}  -->

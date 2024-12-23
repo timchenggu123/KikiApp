@@ -17,11 +17,17 @@
 
         (document.getElementById(id) as HTMLDialogElement)?.close();
         (document.getElementById("loading") as HTMLDialogElement)?.showModal();
-        await asyncPostUploadDeck(file);
         closeModal();
-        files= undefined;
-        (document.getElementById("loading") as HTMLDialogElement)?.close();
-        refreshDecks();
+        try{
+            await asyncPostUploadDeck(file);
+        }catch (e:any) {
+            window.alert(`Failed to upload deck: ${e.message}`)
+        }finally{
+            files= undefined;
+            (document.getElementById("loading") as HTMLDialogElement)?.close();
+            refreshDecks(); 
+        }
+        
     }
 </script>
 

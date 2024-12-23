@@ -37,7 +37,7 @@
     </ul>
 
     {#if modal1Open && AddCardFromRaw}
-        <svelte:component this={AddCardFromRaw} id={addCardRawId} closeModal={()=>{modal1Open=false}}/>
+        <AddCardFromRaw id={addCardRawId} closeModal={()=>{modal1Open=false}}/>
     {/if}
     {#if modal2Open && AddCardFromCurrent}
         <AddCardFromCurrent id={addCardFromId} curCardID={curCardID} closeModal={()=>{modal2Open=false}}/>

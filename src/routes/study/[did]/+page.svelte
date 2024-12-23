@@ -13,20 +13,30 @@
     let curCardID = $state(-1);
     let ready = $state(false);
     let did = $state(-1);
+    let no_card = $state(false);
     
     let setCurCardId = (id:number) => {
         curCardID = id;
     }
 
     async function fetchCard(){
-        did = parseInt($page.params.did)
-        const res = await asyncGetStudy(did);
-        card_data = res.card;
-        setCurCardId(card_data.cid);
-        unknown = res.counts.new;
-        learning = res.counts.learning;
-        review = res.counts.review;
-        ready = true;
+        did = parseInt($page.params.did);
+        ready = false;
+        try{
+            const res = await asyncGetStudy(did);
+            card_data = res.card;
+            setCurCardId(card_data.cid);
+            unknown = res.counts.new;
+            learning = res.counts.learning;
+            review = res.counts.review;
+        }catch (e: any){
+            unknown = 0;
+            learning = 0;
+            review = 0;
+            no_card = true;
+        }finally{
+            ready = true;
+        }
     }
     onMount(
         fetchCard
@@ -59,8 +69,13 @@
     <div class="text-sm">Learning:{learning}</div>
     <div class="text-sm">Review:{review}</div>
 </div>
-{#if ready}
+{#if !no_card}
 <Card card_data={card_data}/>
+{/if}
+{#if no_card}
+<div class="h-full max-h-35 w-full flex justify-center items-center">
+    <p class="text-2xl">🎉Congrats! You are all done!!🎉</p>
+</div>
 {/if}
 <div class=" p-3 w-full mb-7">
     <div class="grid grid-cols-4 gap-4">
@@ -74,4 +89,11 @@
         <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer4}>Easy</button> -->
     </div>
 </div>
+{#if !ready}
+<dialog class="modal" id="loadingModal" open>
+    <div class="modal-box w-52 h-52 flex flex-col justify-center items-center">
+        <span class="loading loading-spinner loading-lg"></span>
+    </div>
+</dialog>
+{/if}
 
