@@ -1,6 +1,6 @@
 import { goto } from '$app/navigation';
 // export const SERVER_URL = "http://192.168.2.10:5000";
-export const SERVER_URL = "https://kikiserver.timgu.me";
+export const SERVER_URL = "https://kikiserver2.timgu.me";
 // export const SERVER_URL = "http://localhost:5000";
 
 // Check resposne
