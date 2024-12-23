@@ -28,7 +28,7 @@
         modal3Open = true;
 	}
 </script>
-<div class="dropdown">
+<div class="dropdown w-20">
 <div tabindex="0" role="button" class="btn btn-outline w-full">Add</div>
     <ul tabindex=-1 class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
         <li><a onclick={showModal1}>Raw</a></li>
