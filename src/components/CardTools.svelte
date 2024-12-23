@@ -18,7 +18,7 @@
 </script>
 
 <div class="flex flex-row items-center gap-2 py-4">
-    <img src={kiki_logo} class=" h-20 w-20 p-2"/>
+    <a href="/decks" aria-label="Home"><img src={kiki_logo} class=" h-20 w-20 p-2"/></a>
     <AddCard curCardID={curCardID} curDeck={curDeck}/>
     <!-- <a class="btn" href="/decks">Edit</a> -->
     <div class="btn" aria-label="Delete Card" onclick={deleteCard}>Delete</div>

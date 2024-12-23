@@ -1,12 +1,11 @@
 <script lang="ts">
-    import CardTools from '../../components/CardTools.svelte';
 import Header from '../Header.svelte';
 	let { children } = $props();
 </script>
 
 <div class="h-screen max-w-[30rem] m-auto">
 	<div class="flex flex-col h-full px-4">
-    <Header />
+    <!-- <Header /> -->
 		{@render children()}
     </div>
 
