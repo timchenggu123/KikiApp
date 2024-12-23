@@ -65,10 +65,14 @@
 {/if}
 <div class="m-0 p-3 w-full mb-20">
     <div class="grid grid-cols-4 gap-4">
-        <button class="btn shadow-xl bg-red-700 border-b-2 border-red-500" onclick={handleAnswer1}>Again</button>
-        <button class="btn shadow-xl bg-orange-700 border-b-2 border-orange-500" onclick={handleAnswer2}>Hard</button>
-        <button class="btn shadow-xl bg-green-700 border-b-2 border-green-500" onclick={handleAnswer3}>Okay</button>
-        <button class="btn shadow-xl bg-blue-700 border-b-2 border-blue-500" onclick={handleAnswer4}>Easy</button>
+        <button class="btn shadow-xl bg-red-900 border-b-2 border-red-600 text-white" onclick={handleAnswer1}>Again</button>
+        <button class="btn shadow-xl bg-orange-900 border-b-2 border-orange-600 text-white" onclick={handleAnswer2}>Hard</button>
+        <button class="btn shadow-xl bg-green-900 border-b-2 border-green-600 text-white" onclick={handleAnswer3}>Okay</button>
+        <button class="btn shadow-xl bg-blue-900 border-b-2 border-blue-600 text-white" onclick={handleAnswer4}>Easy</button>
+        <!-- <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer1}>Again</button>
+        <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer2}>Hard</button>
+        <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer3}>Okay</button>
+        <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer4}>Easy</button> -->
     </div>
 </div>
 
