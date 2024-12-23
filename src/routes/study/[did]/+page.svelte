@@ -32,7 +32,6 @@
         fetchCard
     );
 
-
     async function handleAnswer1(){
         const time =  Date.now()/1000
         const res = await asyncPostStudyAnswer(card_data.cid, 1, time);
@@ -63,7 +62,7 @@
 {#if ready}
 <Card card_data={card_data}/>
 {/if}
-<div class="m-0 p-3 w-full mb-20">
+<div class=" p-3 w-full mb-7">
     <div class="grid grid-cols-4 gap-4">
         <button class="btn shadow-xl bg-red-900 border-b-2 border-red-600 text-white" onclick={handleAnswer1}>Again</button>
         <button class="btn shadow-xl bg-orange-900 border-b-2 border-orange-600 text-white" onclick={handleAnswer2}>Hard</button>
