@@ -3,7 +3,7 @@
     import type { TypeDeck } from "$lib/api/types";
 	import { asyncQueryWordRaw, parseRaw } from "$lib/dict/dictionaryApiDev";
     import { onMount } from "svelte";
-    let { id, curDeck } = $props();
+    let { id, curDeck, closeModal } = $props();
     let front = $state("");
     let back = $state("");
     let queryWord = $state("");
@@ -16,25 +16,16 @@
     let audio = $state("");
     let meanings_text = $state("");
 
-    const closeModal = () => {
-        (document.getElementById(id) as HTMLDialogElement)?.close();
-    }
     let decks: TypeDeck[] = $state([])// List of decks
     onMount(async () => {
         let res = await asyncGetDecks();
         decks = res;
     });
     async function addCard() {
-        console.log(front, back);
         await asyncPostAddCardRaw(curDeck, front, back);
         closeModal();
     }
     async function searchWord() {
-        // const res = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${queryWord}`);
-        // const data = await res.json();
-        // console.log(data);
-        // definition = data[0].meanings[0].definitions[0].definition;
-
         const raw = await asyncQueryWordRaw(queryWord);
         const res = parseRaw(raw)
         word = res.word;
@@ -49,7 +40,7 @@
     }
 </script>
 
-<dialog class="modal" id={id}>
+<dialog class="modal" id={id} open>
     <div class="modal-box">
         <h3 class="text-lg font-bold pb-4">Adding a new card!</h3>
         <div class="flex flex-col gap-2 justify-start">

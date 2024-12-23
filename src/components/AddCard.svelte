@@ -1,19 +1,31 @@
 <script lang="ts">
-    import AddCardFromRaw from "./AddCardRaw.svelte";
-    import AddCardFromCurrent from "./AddCardFromCurrent.svelte";
-	import AddCardDict from "./AddCardDict.svelte";
+    let AddCardFromRaw: any|undefined= $state(undefined);
+    let AddCardFromCurrent: any|undefined = $state(undefined);
+    let AddCardDict: any|undefined = $state(undefined);
+
     let {curCardID, curDeck} = $props();
     let addCardRawId = "addCardRawModal";
     let addCardFromId = "addCardFromModal";
     let addCardDictId = "addCardDictModal";
-	function showModal1() {
-		(document.getElementById(addCardRawId) as HTMLDialogElement)?.showModal();
+
+    let modal1Open = $state(false);
+    let modal2Open = $state(false);
+    let modal3Open = $state(false);
+
+	async function showModal1() {
+        const module = await import("./AddCardRaw.svelte");
+        AddCardFromRaw = module.default;
+		modal1Open = true;
 	}
-	function showModal2() {
-		(document.getElementById(addCardFromId) as HTMLDialogElement)?.showModal();
+	async function showModal2() {
+        const module = await import("./AddCardFromCurrent.svelte");
+        AddCardFromCurrent = module.default;
+        modal2Open = true;
 	}
-    function showModal3() {
-		(document.getElementById(addCardDictId) as HTMLDialogElement)?.showModal();
+    async function showModal3() {
+	    const module = await import("./AddCardDict.svelte");
+        AddCardDict = module.default;
+        modal3Open = true;
 	}
 </script>
 <div class="dropdown">
@@ -23,7 +35,14 @@
         <li><a onclick={showModal2}>Current</a></li>
         <li><a onclick={showModal3}>Word</a></li>
     </ul>
-    <AddCardFromRaw id={addCardRawId}/>
-    <AddCardFromCurrent id={addCardFromId} curCardID={curCardID}/>
-    <AddCardDict id={addCardDictId} curDeck={curDeck}/>
+
+    {#if modal1Open && AddCardFromRaw}
+        <svelte:component this={AddCardFromRaw} id={addCardRawId} closeModal={()=>{modal1Open=false}}/>
+    {/if}
+    {#if modal2Open && AddCardFromCurrent}
+        <AddCardFromCurrent id={addCardFromId} curCardID={curCardID} closeModal={()=>{modal2Open=false}}/>
+    {/if}
+    {#if modal3Open && AddCardDict}
+        <AddCardDict id={addCardDictId} curDeck={curDeck} closeModal={()=>modal3Open=false}/>
+    {/if}
 </div>

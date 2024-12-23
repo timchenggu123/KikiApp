@@ -3,17 +3,16 @@
     import type { TypeDeck } from "$lib/api/types";
     import { onMount } from "svelte";
     
-    let { id, curCardID } = $props();
+    let { id, curCardID, closeModal } = $props();
     let front = $state("");
     let back = $state("");
-    const closeModal = () => {
-        (document.getElementById(id) as HTMLDialogElement)?.close();
-    }
+    // const closeModal = () => {
+    //     (document.getElementById(id) as HTMLDialogElement)?.close();
+    // }
     let decks: TypeDeck[] = $state([])// List of decks
     let selectedDeck: Number = -1; // Variable to store the selected deck
     function handleSelect(event:any) {
         selectedDeck = event.target.value;
-        console.log(selectedDeck);
     }
     let card_id: number = $state(-1);
     onMount(async () => {
@@ -27,7 +26,7 @@
     }
 </script>
 
-<dialog class="modal" id={id}>
+<dialog class="modal" id={id} open>
     <div class="modal-box">
         {#if curCardID == -1}
             <h3 class="text-lg font-bold pb-4">Please select a card first!</h3>
