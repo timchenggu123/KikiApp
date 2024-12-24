@@ -10,6 +10,10 @@
     let unknown = $state(0);
     let learning = $state(0);
     let review = $state(0);
+    let again_interval = $state("");
+    let hard_interval = $state("");
+    let okay_interval = $state("");
+    let easy_interval = $state("");
     let curCardID = $state(-1);
     let ready = $state(false);
     let did = $state(-1);
@@ -29,10 +33,18 @@
             unknown = res.counts.new;
             learning = res.counts.learning;
             review = res.counts.review;
+            again_interval = res.intervals.again;
+            hard_interval = res.intervals.hard;
+            okay_interval = res.intervals.okay;
+            easy_interval = res.intervals.easy;
         }catch (e: any){
             unknown = 0;
             learning = 0;
             review = 0;
+            again_interval = "";
+            hard_interval = "";
+            okay_interval = "";
+            easy_interval = "";
             no_card = true;
         }finally{
             ready = true;
@@ -79,14 +91,22 @@
 {/if}
 <div class=" p-3 w-full mb-7">
     <div class="grid grid-cols-4 gap-4">
-        <button class="btn shadow-xl bg-red-900 border-b-2 border-red-600 text-white" onclick={handleAnswer1}>Again</button>
-        <button class="btn shadow-xl bg-orange-900 border-b-2 border-orange-600 text-white" onclick={handleAnswer2}>Hard</button>
-        <button class="btn shadow-xl bg-green-900 border-b-2 border-green-600 text-white" onclick={handleAnswer3}>Okay</button>
-        <button class="btn shadow-xl bg-blue-900 border-b-2 border-blue-600 text-white" onclick={handleAnswer4}>Easy</button>
-        <!-- <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer1}>Again</button>
-        <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer2}>Hard</button>
-        <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer3}>Okay</button>
-        <button class="btn btn-outline shadow-xl border-2 bg-black border-yellow-500 text-yellow-500" onclick={handleAnswer4}>Easy</button> -->
+        <button class="btn shadow-xl bg-red-900 border-b-2 border-red-600 flex flex-col justify-center item-center gap-0" onclick={handleAnswer1}>
+            <p class="text-sm text-white">Again</p>
+            <p class="text-sm font-light">({again_interval})</p>
+        </button>
+        <button class="btn shadow-xl bg-orange-900 border-b-2 border-orange-600  flex flex-col justify-center item-center gap-0" onclick={handleAnswer2}>
+            <p class="text-sm text-white">Hard</p>
+            <p class="text-sm font-light">({hard_interval})</p>
+        </button>
+        <button class="btn shadow-xl bg-green-900 border-b-2 border-green-600  flex flex-col justify-center item-center gap-0" onclick={handleAnswer3}>
+            <p class="text-sm text-white">Okay</p>
+            <p class="text-sm font-light">({okay_interval})</p>
+        </button>
+        <button class="btn shadow-xl bg-blue-900 border-b-2 border-blue-600 flex flex-col justify-center item-center gap-0" onclick={handleAnswer4}>
+            <p class="text-sm text-white">Easy</p>
+            <p class="text-sm font-light">({easy_interval})</p>
+        </button>
     </div>
 </div>
 {#if !ready}
