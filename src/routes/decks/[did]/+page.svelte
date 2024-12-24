@@ -28,10 +28,13 @@
 
 	async function deleteCards(){
 		const selectedNotes = notes.filter((note:any) => note.selected);
+		const confirm = window.confirm(`Are you sure you want to delete ${selectedNotes.length} notes?`);
+		if (!confirm) return;
 		const nids = selectedNotes.map((note:any) => note.id);
 		const remainingNotes = notes.filter((note:any) => !note.selected);
 		await asyncBatchRemoveNotes(nids);
 		notes = remainingNotes;
+		window.alert("Notes deleted successfully!");
 	}
 
 	let note_data = $state({Front:"", Back:""});
