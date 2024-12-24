@@ -9,11 +9,9 @@
 	let editMode = $state(false);
 	onMount(async () => {
 		const res = await asyncGetDeckNotes(parseInt($page.params.did));
-		console.log(res);
 		notes = res.map((note:any) => {
 			return {id: note.id, title: note.title, selected : false};
 		});
-		console.log(notes);
 	});
 
 	async function deleteCards(){
