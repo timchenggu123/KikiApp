@@ -3,12 +3,15 @@
 	import {asyncGetDeckNotes, asyncBatchRemoveNotes} from '$lib/api/api';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import { asyncGetNote } from '$lib/api/api';
 	import DeckTools from '../../../components/DeckTools.svelte';
+	import NoteData from '../../../components/NoteData.svelte';
 
 	let notes : any[] = $state([{cid:0, title:"", selected:false}]);
 	let editMode = $state(false);
 	let loaded = $state(false);
 	let error = $state("");
+	
 	onMount(async () => {
 		loaded = false;
 		try{
@@ -30,6 +33,14 @@
 		await asyncBatchRemoveNotes(nids);
 		notes = remainingNotes;
 	}
+
+	let note_data = $state({Front:"", Back:""});
+	let show_note = $state(false);
+	async function showNoteData(nid:number){
+		show_note = true;
+        const res = await asyncGetNote(nid);
+        note_data = res;
+    }
 </script>  
 
 <DeckTools toggleEditMode={()=>{editMode=!editMode}} editMode={editMode} triggerDelete={()=>{deleteCards()}}/>
@@ -46,7 +57,7 @@
 	  <tbody>
 	  {#each notes as note, i}
 		<tr>
-			<td class="max-w-8"><a href={`/notes/` + note.id} class="text-sky-500 hover:text-sky-700">{i+1}</a></td>
+			<td class="max-w-8"><a href="#" onclick={()=>{showNoteData(note.id)}} class="text-sky-500 hover:text-sky-700">{i+1}</a></td>
 			<td class="max-w-[18rem]"><p class="break-all">{note.title}</p></td>
 			<td class={"max-w-6" + (editMode ? "":" hidden")}><input type="checkbox" class="checkbox bg-base-300" bind:checked={note.selected}/></td>
 		</tr>	
@@ -67,5 +78,9 @@
 {/if}
 
 {#if error != ""}
-<div class="alert alert-error">{error}</div>
+	<div class="alert alert-error">{error}</div>
+{/if}
+
+{#if show_note}
+	<NoteData note_data={note_data} close={()=>{show_note=false}}/>
 {/if}
