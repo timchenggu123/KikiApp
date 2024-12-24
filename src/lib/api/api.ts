@@ -12,8 +12,8 @@ export const asyncGetDecks = async () => {
   return undefined;
 };
 
-export const asyncGetDeckCards = async (did: Number) => {
-    const response = await fetch(SERVER_URL + `/deck/${did}/cards`, {
+export const asyncGetDeckNotes = async (did: Number) => {
+    const response = await fetch(SERVER_URL + `/deck/${did}/notes`, {
         method: 'Get',
         credentials: 'include', // Include cookies for cross-origin requests
       });
@@ -22,6 +22,18 @@ export const asyncGetDeckCards = async (did: Number) => {
       }
       return undefined;
 };
+
+export const asyncGetNote = async (nid: Number) => {
+    const response = await fetch(SERVER_URL + `/notes/${nid}`, {
+        method: 'Get',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return undefined;
+};
+
 
 export const asyncGetStudy = async (did: Number) => {
     const response = await fetch(SERVER_URL + `/study/${did}/next`, {
@@ -85,7 +97,26 @@ export const asyncGetAddCardFromCard = async (did: Number, cid: Number) => {
 
 export const asyncRemoveCard = async (cid: Number) => {
     const response = await fetch(SERVER_URL + `/card/remove/${cid}`, {
-        method: 'GeT',
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify({cid}),
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return undefined;
+}
+
+export const asyncBatchRemoveNotes = async (nids: Number[]) => {
+    const response = await fetch(SERVER_URL + `/note/batchremove`, {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify({nids}),
         credentials: 'include', // Include cookies for cross-origin requests
       });
       if (checkResponse(response)) {

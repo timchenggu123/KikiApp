@@ -1,51 +1,47 @@
 <!-- src/DeckBrowser.svelte -->  
 <script lang="ts">  
-	import {asyncGetDeckCards} from '$lib/api/api';
-	import type { TypeCard } from '$lib/api/types';
+	import {asyncGetDeckNotes, asyncBatchRemoveNotes} from '$lib/api/api';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
+	import DeckTools from '../../../components/DeckTools.svelte';
 
-	let cards : TypeCard[] = $state([{cid:0, Front:"", Back:""}]);
+	let notes : any[] = $state([{cid:0, title:"", selected:false}]);
+	let editMode = $state(false);
 	onMount(async () => {
-		const res = await asyncGetDeckCards(parseInt($page.params.did));
-		cards = res;
+		const res = await asyncGetDeckNotes(parseInt($page.params.did));
+		console.log(res);
+		notes = res.map((note:any) => {
+			return {id: note.id, title: note.title, selected : false};
+		});
+		console.log(notes);
 	});
+
+	async function deleteCards(){
+		const selectedNotes = notes.filter((note:any) => note.selected);
+		const nids = selectedNotes.map((note:any) => note.id);
+		const remainingNotes = notes.filter((note:any) => !note.selected);
+		await asyncBatchRemoveNotes(nids);
+		notes = remainingNotes;
+	}
 </script>  
-	
-<!-- <div class="grid grid-row-2 gap-4">
-	<div class="grid grid-cols-3">
-		<div class="col-start-1">
-			Front
-		</div>
-		<div class="col-start-2">
-			Back
-		</div>
-	</div>
-	{#each cards as card}
-		<div class="grid grid-cols-3">
-			<div class="col-start1">
-				{card.Front}
-			</div>
-			<div class="col-start-2">
-				{card.Back}
-			</div>
-		</div>
-	{/each}  
-</div> -->
-<div class="overflow-x-auto">
+
+<DeckTools toggleEditMode={()=>{editMode=!editMode}} editMode={editMode} triggerDelete={()=>{deleteCards()}}/>
+<div>
 	<table class="table table-zebra">
 	  <!-- head -->
 	  <thead>
 		<tr>
-		  <th>Front</th>
-		  <th>Back</th>
+		  <th class="max-w-8">ID</th>
+		  <th class="max-w-[18rem]">Card Front</th>
+		  <th class={"max-w-6" + (editMode ? "":" hidden")}>Select</th>
 		</tr>
 	  </thead>
 	  <tbody>
-	  {#each cards as card}
+	  {#each notes as note, i}
 		<tr>
-			<td>{card.Front}</td>
-			<td>{card.Back}</td>
+			<td class="max-w-8"><a href={`/notes/` + note.id} class="text-sky-500 hover:text-sky-700">{i+1}</a></td>
+			<td class="max-w-[18rem]"><p class="break-all">{note.title}</p></td>
+			<td class={"max-w-6" + (editMode ? "":" hidden")}><input type="checkbox" class="checkbox" bind:checked={note.selected}/></td>
 		</tr>	
 	  {/each}
 	  </tbody>
