@@ -9,8 +9,7 @@
 
 	
 	let decks: TypeDeck[] = $state([]);
-	let new_number = $state(20);
-	let review_number = $state(200);
+	let showConfig = $state(false);
 	let selectedDid = $state(-1);
 	let config: any = $state(undefined);
 
@@ -24,23 +23,18 @@
 		if (config === undefined) {
 			return;
 		}
-		new_number = config.new.perDay;
-		review_number = config.rev.perDay;
-		const dialog = document.getElementById('configDeckModal') as HTMLDialogElement;
-		dialog.showModal();
+		console.log(config);
+		showConfig = true;
 	}
 
 	function closeModal() {
-		const dialog = document.getElementById('configDeckModal') as HTMLDialogElement;
-		dialog.close();
+		showConfig = false;
 	}
 
 	async function configDeck() {
 		if (config === undefined) {
 			return;
 		}
-		config.new.perDay = new_number;
-		config.rev.perDay = review_number;
 		await asyncPostDeckConfig(selectedDid, config);
 		closeModal();
 	}
@@ -95,7 +89,8 @@
 	</li>
 {/each}
 
-<dialog class="modal" id="configDeckModal">
+{#if showConfig}
+<dialog class="modal" id="configDeckModal" open>
     <div class="modal-box">
 		<div class="flex flex-row justify-between">
 			<h3 class="text-lg font-bold pb-4">Configuring Deck</h3>
@@ -103,14 +98,23 @@
 		</div>
 
         <div class="flex flex-col gap-2 justify-start">
+			<div class="grid grid-cols-4"> 
+				<p class="col-start-1">Study Order:</p>
+                <select bind:value={config.new.order} class="select bg-base-300 w-full max-w-xs col-start-2">
+					<option disabled selected>Auto</option>
+					<option value={0}>Random</option>
+					<option value={1}>Default</option>
+				</select>
+            </div>
+
             <div class="grid grid-cols-4"> 
 				<p class="col-start-1">New:</p>
-                <input type="number" placeholder="20" bind:value={new_number} class="input intput-bordered bg-base-300 w-full max-w-xs col-start-2">
+                <input type="number" placeholder="20" bind:value={config.new.perDay} class="input intput-bordered bg-base-300 w-full max-w-xs col-start-2">
             </div>
 
 			<div class="grid grid-cols-4"> 
 				<p class="col-start-1">Review:</p>
-                <input type="number" placeholder="20" bind:value={review_number} class="input intput-bordered bg-base-300 w-full max-w-xs col-start-2">
+                <input type="number" placeholder="20" bind:value={config.rev.perDay} class="input intput-bordered bg-base-300 w-full max-w-xs col-start-2">
         	</div>
             <div class="grid grid-cols-4 grap-3">
                 <button class="btn col-start-1 bg-blue-700" onclick={configDeck}>Confirm</button>
@@ -119,6 +123,6 @@
         </div>
     </div>
 </dialog>
-
+{/if}
 <FileInput id="uploadDeckMoal" refreshDecks={async ()=>{decks = await asyncGetDecks();}}/>
 </ul> 
