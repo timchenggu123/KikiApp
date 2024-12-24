@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 	import type {TypeDeck} from "$lib/api/types";
 	import FileInput from "../../components/UploadDeck.svelte";
+	import Header from "../Header.svelte";
 
 	
 	let decks: TypeDeck[] = $state([]);
@@ -71,6 +72,7 @@
 		return;
 	}
 </script>  
+<Header />
 <div class="flex flex-row justify-between items-center px-2">
 	<h2 class="p-2 text-2xl text-bold">All Decks</h2> 
 	<!-- <button class="" ><p class="m-auto">+</p></button> -->
