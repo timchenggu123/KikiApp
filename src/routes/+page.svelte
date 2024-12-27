@@ -12,7 +12,7 @@
 	<img class="max-h-[15rem] max-w-[15rem]" src={kiki_logo} alt="logo"/>
 	<h1 class="text-2xl font-bold">Welcome to Kiki!</h1>
 	<p class="text-lg">The flashcard app based on Anki</p>
-	<a href={`/auth/login`} class="btn bg-blue-700 max-w-40">Click here to login</a>
+	<a href={`/decks`} class="btn bg-blue-700 max-w-40">Click here to login</a>
 </div>
 
 <style>
