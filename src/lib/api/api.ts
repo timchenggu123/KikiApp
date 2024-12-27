@@ -84,6 +84,22 @@ export const asyncPostAddCardRaw = async (did: Number, front: String, back: Stri
       return undefined;
 }
 
+export const asyncPostAddCardDict = async (did: Number, fields:any) => {
+  const response = await fetch(SERVER_URL + `/deck/${did}/add/dict`, {
+      method: 'Post',
+      headers: {
+          'Content-Type': 'application/json',
+        },
+      body: JSON.stringify(fields),
+      credentials: 'include', // Include cookies for cross-origin requests
+    });
+    if (checkResponse(response)) {
+      return response.json();
+    }
+    return undefined;
+}
+
+
 export const asyncGetAddCardFromCard = async (did: Number, cid: Number) => {
   const response = await fetch(SERVER_URL + `/deck/${did}/add/from/${cid}`, {
       method: 'Get',

@@ -1,20 +1,13 @@
 <script lang="ts">
-    import { asyncGetDecks, asyncPostAddCardRaw }from "$lib/api/api";
+    import { asyncGetDecks, asyncPostAddCardDict }from "$lib/api/api";
     import type { TypeDeck } from "$lib/api/types";
 	import { asyncQueryWordRaw, parseRaw } from "$lib/dict/dictionaryApiDev";
     import { onMount } from "svelte";
     let { id, curDeck, closeModal } = $props();
-    let front = $state("");
-    let back = $state("");
     let queryWord = $state("");
 
     // Dictionary API
-    let word = $state("");
-    let origin = $state("");
-    let phonetic = $state("");
-    let meanings = $state([""]);
-    let audio = $state("");
-    let meanings_text = $state("");
+    let fields:any = $state({});
 
     let decks: TypeDeck[] = $state([])// List of decks
     onMount(async () => {
@@ -22,21 +15,17 @@
         decks = res;
     });
     async function addCard() {
-        await asyncPostAddCardRaw(curDeck, front, back);
+        await asyncPostAddCardDict(curDeck, fields);
         closeModal();
     }
     async function searchWord() {
         const raw = await asyncQueryWordRaw(queryWord);
         const res = parseRaw(raw)
-        word = res.word;
-        origin = res.origin;
-        phonetic = res.phonetic;
-        meanings = res.meanings;
-        meanings_text = meanings.join("<br/>");
-        audio = res.audio;
-        
-        front = `${word}<br/>${phonetic}\n<div class="flex flex-row justify-center"><audio src=${audio} controls></audio></div>`;
-        back = `${meanings_text}`;
+        fields.word = res.word;
+        fields.origin = res.origin ? res.origin : "";
+        fields.phonetic = res.phonetic ? res.phonetic : "";
+        fields.meanings_text = res.meanings.join("<br/><br/>");
+        fields.audio = res.audio;
     }
 </script>
 
@@ -48,15 +37,15 @@
                 <input type="text" placeholder="Search Word" bind:value={queryWord} class="input intput-bordered bg-base-300 w-full max-w-xs">
                 <button class="btn bg-blue-700" onclick={searchWord}>Search</button>
             </div>
-            {#if word}
-            <div class="rounded-lg shadow-xl, bg-base-200 p-5 flex flex-col items-center gap-2 max-h-[30rem] overflow-hidden">
-                <h1>{word}</h1>
-                <h2>{origin}</h2>
-                <h3>{phonetic}</h3>
-                <audio src={audio} controls></audio>
-                {#each meanings as meaning}
-                    <p>{meaning}</p>
-                {/each}
+            {#if fields.word}
+            <div class="rounded-lg shadow-xl, bg-base-200 p-5 flex flex-col items-center gap-2 max-h-[30rem] overflow-scroll">
+                <h1 class="font-bold text-2xl">{fields.word}</h1>
+                <h2>{fields.origin}</h2>
+                <h3>{fields.phonetic}</h3>
+                <div class="h-fit">
+                    <audio src={fields.audio} controls></audio>
+                </div>
+                <p>{@html fields.meanings_text}</p>
             </div>
             {/if}
 

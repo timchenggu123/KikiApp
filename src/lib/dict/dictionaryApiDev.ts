@@ -65,7 +65,7 @@ export function parseRaw(input: any) {
       let example = definition.example;
       return {definition: definition_text, example: example};
     });
-    return `${partOfSpeech}: ${definitions.map((d: any) => d.definition).join(', ')}`;
+    return `<span style="font-weight: bold;">${partOfSpeech}</span>: <br/><ul style="list-style-type: circle; list-style-position: inside;"> ${definitions.map((d: any) => {return `<li>` + `${d.definition} ` + (d.example?`<br/><span style="font-style: italic;">Example: ${d.example}</span>`:"") + `</li>`} ).join('<br/>')}</ul>`;
   });
   return {word, origin, phonetic, meanings, audio};
 }
