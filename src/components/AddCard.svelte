@@ -29,7 +29,7 @@
 	}
 </script>
 <div class="dropdown">
-<div tabindex="0" role="button" class="btn btn-circle"><p class="m-auto text-xl">+</p></div>
+<div tabindex="0" role="button" class="btn btn-circle"><p class="m-auto text-2xl">+</p></div>
     <ul tabindex=-1 class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
         <li><a onclick={showModal1}>Raw</a></li>
         <li><a onclick={showModal2}>Current</a></li>

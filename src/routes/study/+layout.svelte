@@ -2,7 +2,7 @@
 	let { children } = $props();
 </script>
 
-<div class="h-screen max-w-[30rem] m-auto">
+<div class="h-screen max-w-[30rem] m-auto overflow-x-hidden">
 	<div class="flex flex-col h-full px-4">
 		{@render children()}
     </div>
