@@ -76,7 +76,7 @@
     }
 </script>
 <CardTools curCardID={curCardID} curDeck={did}/>
-<div class="w-full h-5 rounded-md bg-slate-700 mb-4 shadow-xl border-b-2 border-b-slate-500 flex gap-4 px-4">
+<div class="w-full h-5 rounded-md bg-slate-700 mb-4 shadow-xl border-b-2 border-b-slate-500 border-r-2 border-r-slate-500 flex gap-4 px-4">
     <div class="text-sm">New:{unknown}</div>
     <div class="text-sm">Learning:{learning}</div>
     <div class="text-sm">Review:{review}</div>
@@ -91,19 +91,19 @@
 {/if}
 <div class=" p-3 w-full mb-7">
     <div class="grid grid-cols-4 gap-4">
-        <button class="btn shadow-xl bg-red-900 border-b-2 border-red-600 flex flex-col justify-center item-center gap-0" onclick={handleAnswer1}>
+        <button class="btn shadow-xl bg-red-700 border-b-4 border-r-4 border-red-900 flex flex-col justify-center item-center gap-0" onclick={handleAnswer1}>
             <p class="text-sm text-white">Again</p>
             <p class="text-sm font-light">({again_interval})</p>
         </button>
-        <button class="btn shadow-xl bg-orange-900 border-b-2 border-orange-600  flex flex-col justify-center item-center gap-0" onclick={handleAnswer2}>
+        <button class="btn shadow-xl bg-orange-700 border-b-4 border-r-4 border-orange-900  flex flex-col justify-center item-center gap-0" onclick={handleAnswer2}>
             <p class="text-sm text-white">Hard</p>
             <p class="text-sm font-light">({hard_interval})</p>
         </button>
-        <button class="btn shadow-xl bg-green-900 border-b-2 border-green-600  flex flex-col justify-center item-center gap-0" onclick={handleAnswer3}>
+        <button class="btn shadow-xl bg-green-700 border-b-4 border-r-4 border-green-900  flex flex-col justify-center item-center gap-0" onclick={handleAnswer3}>
             <p class="text-sm text-white">Okay</p>
             <p class="text-sm font-light">({okay_interval})</p>
         </button>
-        <button class="btn shadow-xl bg-blue-900 border-b-2 border-blue-600 flex flex-col justify-center item-center gap-0" onclick={handleAnswer4}>
+        <button class="btn shadow-xl bg-blue-700 border-b-4 border-r-4 border-blue-900 flex flex-col justify-center item-center gap-0" onclick={handleAnswer4}>
             <p class="text-sm text-white">Easy</p>
             <p class="text-sm font-light">({easy_interval})</p>
         </button>
