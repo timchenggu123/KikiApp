@@ -33,7 +33,7 @@
     <div class="flex-grow flex flex-row justify-end items-center gap-2">
         <AddCard curCardID={curCardID} curDeck={curDeck}/>
         <a class="btn btn-circle text-2xl" href="#" onclick={getCardNote}>✎</a>
-        <div class="btn btn-circle bg-red-500" aria-label="Delete Card" onclick={deleteCard}>🗑</div>
+        <div class="btn btn-circle bg-red-700" aria-label="Delete Card" onclick={deleteCard}>🗑</div>
     </div>
 </div>
 
