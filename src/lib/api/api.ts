@@ -34,6 +34,20 @@ export const asyncGetNote = async (nid: Number) => {
       return undefined;
 };
 
+export const asyncEditNote = async (nid: Number, fields: string[]) => {
+    const response = await fetch(SERVER_URL + `/note/update/${nid}`, {
+        method: 'Post',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body: JSON.stringify(fields),
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response;
+      }
+      return undefined;
+}
 
 export const asyncGetStudy = async (did: Number) => {
     const response = await fetch(SERVER_URL + `/study/${did}/next`, {

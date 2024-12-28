@@ -39,10 +39,12 @@
 
 	let note_data = $state({Front:"", Back:""});
 	let show_note = $state(false);
+	let cur_nid = $state(-1);
 	async function showNoteData(nid:number){
 		show_note = true;
         const res = await asyncGetNote(nid);
         note_data = res;
+		cur_nid = nid;
     }
 </script>  
 
@@ -85,5 +87,5 @@
 {/if}
 
 {#if show_note}
-	<NoteData note_data={note_data} close={()=>{show_note=false}}/>
+	<NoteData nid={cur_nid} note_data={note_data} close={()=>{show_note=false}}/>
 {/if}
