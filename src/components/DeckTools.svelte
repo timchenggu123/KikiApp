@@ -7,7 +7,7 @@
     });
 </script>
 
-<div class="sticky z-50 top-0 flex w-full items-center gap-2 pt-4 pb-2 mb-2 bg-base-100">
+<div class="sticky z-50 top-0 flex w-full items-center gap-2 pt-2 pb-2 mb-2 bg-base-100">
     <a href="/decks" aria-label="Home"><img src={kiki_logo} class=" h-20 w-20 p-2"/></a>
     <div class="flex flex-grow justify-end gap-1">
         {#if localEditMode}

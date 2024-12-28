@@ -34,6 +34,17 @@ export const asyncGetNote = async (nid: Number) => {
       return undefined;
 };
 
+export const asyncGetCardNote = async (cid: Number) => {
+    const response = await fetch(SERVER_URL + `/cards/${cid}/note`, {
+        method: 'Get',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return undefined;
+}
+
 export const asyncEditNote = async (nid: Number, fields: string[]) => {
     const response = await fetch(SERVER_URL + `/note/update/${nid}`, {
         method: 'Post',
