@@ -28,7 +28,7 @@
 		    <button class="btn w-24" onclick={close}>Close</button>
         </div>
 		<div>
-			<table class="table table-zebra">
+			<table class="table table-zebra shadow-2xl">
 			<!-- head -->
 			<thead>
 				<tr>
