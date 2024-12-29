@@ -6,6 +6,7 @@
 	import { asyncGetNote } from '$lib/api/api';
 	import DeckTools from '../../../components/DeckTools.svelte';
 	import NoteData from '../../../components/NoteData.svelte';
+	import DeckStats from '../../../components/DeckStats.svelte';	
 
 	let notes : any[] = $state([{cid:0, title:"", selected:false}]);
 	let editMode = $state(false);
@@ -46,9 +47,14 @@
         note_data = res;
 		cur_nid = nid;
     }
+
+	let showStatsModal = $state(false); 
+	async function showStats(){
+		showStatsModal = true;
+	}
 </script>  
 
-<DeckTools toggleEditMode={()=>{editMode=!editMode}} editMode={editMode} triggerDelete={()=>{deleteCards()}}/>
+<DeckTools toggleEditMode={()=>{editMode=!editMode}} editMode={editMode} triggerDelete={()=>{deleteCards()}} showStats={showStats}/>
 <div>
 	<table class={"table table-zebra" + (loaded?"":" hidden")}>
 	  <!-- head -->
@@ -88,4 +94,8 @@
 
 {#if show_note}
 	<NoteData nid={cur_nid} note_data={note_data} close={()=>{show_note=false}}/>
+{/if}
+
+{#if showStatsModal}
+<DeckStats did={parseInt($page.params.did)} close={()=>{showStatsModal = false;}}/>
 {/if}

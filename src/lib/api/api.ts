@@ -231,3 +231,15 @@ export const asyncPostUploadDeck = async (file: File) => {
       }
       return undefined;
 }
+
+
+export const asyncGetDeckStats = async (did: Number) => {
+    const response = await fetch(SERVER_URL + `/deck/${did}/stats`, {
+        method: 'Get',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return undefined;
+}
