@@ -15,7 +15,17 @@
         decks = res;
     });
     async function addCard() {
-        await asyncPostAddCardDict(curDeck, fields);
+        if (!fields.word) {
+            alert("Please search for a word first!");
+            return;
+        }
+        try{
+            await asyncPostAddCardDict(curDeck, fields);
+            alert("Card added successfully!");
+        }catch(e: any){
+            alert("Failed to add card. Please try again later.");
+            console.log(e);
+        }
         closeModal();
     }
     async function searchWord() {
