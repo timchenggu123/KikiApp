@@ -3,7 +3,7 @@
 	import { onMount } from "svelte";
 
     let {did, close} = $props();
-    let stats = $state({mature: 0, young: 0, unseen: 0, count: 0, unique: 0});
+    let stats = $state({mature: 0, young: 0, unseen: 0, suspended: 0, count: 0, unique: 0});
     let ready = $state(false);
     onMount(async () => {
         ready = false;
@@ -34,6 +34,9 @@
                 </div>
                 <div class="flex flex-row justify-between">
                     <p>Learning: </p><p>{stats.young}{` (`+ toPercent(stats.young, stats.count) +`%)`}</p>
+                </div>
+                <div class="flex flex-row justify-between">
+                    <p>Suspended: </p><p>{stats.suspended}{` (`+ toPercent(stats.suspended, stats.count) +`%)`}</p>
                 </div>
                 <div class="flex flex-row justify-between">
                     <p>Remaining: </p><p>{stats.unseen}{` (`+ toPercent(stats.unseen, stats.count) +`%)`}</p>
