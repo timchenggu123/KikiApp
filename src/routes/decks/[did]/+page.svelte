@@ -7,6 +7,7 @@
 	import DeckTools from '../../../components/DeckTools.svelte';
 	import NoteData from '../../../components/NoteData.svelte';
 	import DeckStats from '../../../components/DeckStats.svelte';	
+	import kiki_logo from "$lib/images/kiki_logo.png";
 
 	let notes : any[] = $state([{cid:0, title:"", selected:false}]);
 	let editMode = $state(false);
@@ -52,9 +53,15 @@
 	async function showStats(){
 		showStatsModal = true;
 	}
-</script>  
-
+</script> 
+{#if !loaded && error == ""}
+<div class="flex w-full items-center gap-2 pt-2 pb-2 mb-2 bg-base-100">
+    <a href="/decks" aria-label="Home"><img src={kiki_logo} class=" h-20 w-20 p-2"/></a>
+</div>
+{/if}
+<div class={loaded?"":"hidden"}>
 <DeckTools toggleEditMode={()=>{editMode=!editMode}} editMode={editMode} triggerDelete={()=>{deleteCards()}} showStats={showStats}/>
+</div>
 <div>
 	<table class={"table table-zebra" + (loaded?"":" hidden")}>
 	  <!-- head -->
