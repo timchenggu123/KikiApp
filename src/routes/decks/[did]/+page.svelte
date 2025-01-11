@@ -10,10 +10,20 @@
 	import kiki_logo from "$lib/images/kiki_logo.png";
 
 	let notes : any[] = $state([{cid:0, title:"", selected:false}]);
+	let rows: any[] = $state([]);
+	let row_idx = 0;
 	let editMode = $state(false);
 	let loaded = $state(false);
 	let error = $state("");
-	
+	let table: any = $state(null);
+
+	function loadTable(){
+		for (let i = 0; i < 20; i ++){
+			if (row_idx >= notes.length) break;
+			rows.push(notes[row_idx]);
+			row_idx += 1;
+		}
+	}
 	onMount(async () => {
 		loaded = false;
 		try{
@@ -25,6 +35,20 @@
 		}catch(e){
 			error = "Oops! Something went wrong. Please try again later.";
 			console.log(e);
+		}
+
+		if (table) {
+			loadTable();
+			table.addEventListener("scroll", function () {
+				if (
+					table.scrollTop + table.clientHeight >=
+					table.scrollHeight
+				) {
+					if (rows.length <= notes.length) {
+						loadTable();
+					}
+				}
+			});
 		}
 	});
 
@@ -38,7 +62,6 @@
 		notes = remainingNotes;
 		window.alert("Notes deleted successfully!");
 	}
-
 	let note_data = $state({Front:"", Back:""});
 	let show_note = $state(false);
 	let cur_nid = $state(-1);
@@ -49,6 +72,14 @@
 		cur_nid = nid;
     }
 
+	$effect(() => {
+		const selected = notes.filter((note:any) => note.selected);
+		if (selected.length == 0){
+			editMode = false;
+		} else{
+			editMode = true;
+		}
+	});
 	let showStatsModal = $state(false); 
 	async function showStats(){
 		showStatsModal = true;
@@ -60,24 +91,29 @@
 </div>
 {/if}
 <div class={loaded?"":"hidden"}>
-<DeckTools toggleEditMode={()=>{editMode=!editMode}} editMode={editMode} triggerDelete={()=>{deleteCards()}} showStats={showStats}/>
+<DeckTools 
+		toggleEditMode={()=>{editMode=!editMode}}
+		editMode={editMode} 
+		triggerDelete={()=>{deleteCards()}} 
+		showStats={showStats}
+/>
 </div>
-<div>
+<div class="max-h-[50rem] h-full overflow-auto" bind:this={table}>
 	<table class={"table table-zebra" + (loaded?"":" hidden")}>
 	  <!-- head -->
-	  <thead>
+	  <thead class="sticky top-0 bg-base-100">
 		<tr>
 		  <th class="max-w-8">ID</th>
 		  <th class="max-w-[18rem]">Card Front</th>
-		  <th class={"max-w-6" + (editMode ? "":" hidden")}>Select</th>
+		  <th class={"max-w-6"}>Select</th>
 		</tr>
 	  </thead>
 	  <tbody>
-	  {#each notes as note, i}
+	  {#each rows as note, i}
 		<tr>
 			<td class="max-w-8"><a href="#" onclick={()=>{showNoteData(note.id)}} class="text-sky-500 hover:text-sky-700">{i+1}</a></td>
 			<td class="max-w-[18rem]"><p class="break-all">{note.title}</p></td>
-			<td class={"max-w-6" + (editMode ? "":" hidden")}><input type="checkbox" class="checkbox bg-base-300" bind:checked={note.selected}/></td>
+			<td class={"max-w-6"}><input type="checkbox" class="checkbox bg-base-300" bind:checked={note.selected}/></td>
 		</tr>	
 	  {/each}
 	  </tbody>

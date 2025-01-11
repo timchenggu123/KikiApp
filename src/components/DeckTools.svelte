@@ -14,6 +14,5 @@
         {#if localEditMode}
             <div class="btn w-20 bg-red-600" aria-label="Delete Cards" onclick={triggerDelete}>Delete</div>
         {/if}
-        <div class="btn w-20" aria-label="Edit Deck" onclick={toggleEditMode}>{localEditMode?`Done`:`Edit`}</div>
     </div>
 </div>
