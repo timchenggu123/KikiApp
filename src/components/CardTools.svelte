@@ -1,8 +1,8 @@
 <script lang="ts">
-    import kiki_logo from "$lib/images/kiki_logo.png";
 	import AddCard from "./AddCard.svelte";
     import { asyncGetCardNote, asyncRemoveCard, asyncSuspendCard } from "$lib/api/api";
 	import EditCard from "./EditCard.svelte";
+	import KikiButton from "./KikiButton.svelte";
     let {curCardID, curDeck} = $props();
 
     async function refresh() {
@@ -37,7 +37,7 @@
 </script>
 
 <div class="flex flex-row items-center gap-2 py-2">
-    <a href="/decks" aria-label="Home"><img src={kiki_logo} class=" h-20 w-20 p-2"/></a>
+    <KikiButton/>
     <div class="flex-grow flex flex-row justify-end items-center gap-2">
         <AddCard curCardID={curCardID} curDeck={curDeck}/>
         <div class="btn btn-circle text-2xl" onclick={getCardNote}>✎</div>
