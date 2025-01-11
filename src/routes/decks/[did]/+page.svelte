@@ -118,6 +118,7 @@
 	  {/each}
 	  </tbody>
 	</table>
+	<btn class="btn w-20" onclick={loadTable}>Load More</btn>
 </div>
 
 {#if !loaded && error == ""}
