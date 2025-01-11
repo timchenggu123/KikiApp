@@ -98,7 +98,7 @@
 		showStats={showStats}
 />
 </div>
-<div class="max-h-[50rem] h-full overflow-auto" bind:this={table}>
+<div class={"max-h-[50rem] flex-grow overflow-auto mb-10 " + (loaded?"":" hidden")} bind:this={table}>
 	<table class={"table table-zebra" + (loaded?"":" hidden")}>
 	  <!-- head -->
 	  <thead class="sticky top-0 bg-base-100">
