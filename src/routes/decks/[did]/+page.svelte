@@ -42,7 +42,7 @@
 			table.addEventListener("scroll", function () {
 				if (
 					table.scrollTop + table.clientHeight >=
-					table.scrollHeight
+					table.scrollHeight * 0.7
 				) {
 					if (rows.length <= notes.length) {
 						loadTable();
