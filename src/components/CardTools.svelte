@@ -3,6 +3,7 @@
     import { asyncGetCardNote, asyncRemoveCard, asyncSuspendCard } from "$lib/api/api";
 	import EditCard from "./EditCard.svelte";
 	import KikiButton from "./KikiButton.svelte";
+    import DeckStats from "./DeckStats.svelte";
     let {curCardID, curDeck} = $props();
 
     async function refresh() {
@@ -34,6 +35,11 @@
         const res = await asyncSuspendCard(curCardID);
         refresh();
     }
+
+    let showStatsModal = $state(false); 
+	async function showStats(){
+		showStatsModal = true;
+	}
 </script>
 
 <div class="flex flex-row items-center gap-2 py-2">
@@ -42,10 +48,20 @@
         <AddCard curCardID={curCardID} curDeck={curDeck}/>
         <div class="btn btn-circle text-2xl" onclick={getCardNote}>✎</div>
         <div class="btn btn-circle text-2xl" aria-label="Suspend Card" onclick={suspendCard}>❅</div>
-        <div class="btn btn-circle" aria-label="Delete Card" onclick={deleteCard}>🗑</div>
+        <details class="dropdown dropdown-end">
+            <summary class="btn btn-circle text-2xl" aria-label="More"><p class="m-auto">⋮</p></summary>
+            <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow-xl">
+              <li onclick={showStats}><a>Stats</a></li>
+              <li onclick={deleteCard}><a>Delete</a></li>
+            </ul>
+        </details>
     </div>
 </div>
 
 {#if showNote}
 <EditCard nid={nid} note_data={note_data} close={()=>{showNote=false}}/>
+{/if}
+
+{#if showStatsModal}
+<DeckStats did={curDeck} close={()=>{showStatsModal = false;}}/>
 {/if}
