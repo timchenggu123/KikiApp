@@ -9,6 +9,8 @@
 	import DeckStats from '../../../components/DeckStats.svelte';	
 	import kiki_logo from "$lib/images/kiki_logo.png";
 
+	const LOAD_NUM = 100; // Number of notes to load at a time. This is set to 50 in the backend
+
 	let notes : any[] = $state([{cid:0, title:"", selected:false}]);
 	let total = 0;
 	let editMode = $state(false);
@@ -17,23 +19,12 @@
 	let error = $state("");
 	let table: any = $state(null);
 	let row_count = 0;
+	let query = $state("all");
 
-	const LOAD_NUM = 100; // Number of notes to load at a time. This is set to 50 in the backend
-	async function loadTable(){
-		row_loaded = false;
-		if (row_count >= total) return;
-		row_count += LOAD_NUM;
-		const res = await asyncGetDeckNotes(parseInt($page.params.did), row_count);
-		const new_notes = res.notes.map((note:any) => {
-			return {id: note.id, title: note.title, selected : false};
-		});
-		notes = notes.concat(new_notes);
-		row_loaded = true;
-	}
-	onMount(async () => {
+	async function initTable(){
 		loaded = false;
 		try{
-			const res = await asyncGetDeckNotes(parseInt($page.params.did), 0);
+			const res = await asyncGetDeckNotes(parseInt($page.params.did), query, 0);
 			total = res.total;
 			notes = res.notes.map((note:any) => {
 				return {id: note.id, title: note.title, selected : false};
@@ -43,6 +34,22 @@
 			error = "Oops! Something went wrong. Please try again later.";
 			console.log(e);
 		}
+	}
+
+	async function loadTable(){
+		row_loaded = false;
+		if (row_count >= total) return;
+		row_count += LOAD_NUM;
+		const res = await asyncGetDeckNotes(parseInt($page.params.did), query, row_count);
+		const new_notes = res.notes.map((note:any) => {
+			return {id: note.id, title: note.title, selected : false};
+		});
+		notes = notes.concat(new_notes);
+		row_loaded = true;
+	}
+
+	onMount(async () => {
+		await initTable();
 
 		if (table) {
 			table.addEventListener("scroll", async () => {
@@ -84,10 +91,7 @@
 			editMode = true;
 		}
 	});
-	let showStatsModal = $state(false); 
-	async function showStats(){
-		showStatsModal = true;
-	}
+
 </script> 
 {#if !loaded && error == ""}
 <div class="flex w-full items-center gap-2 pt-2 pb-2 mb-2 bg-base-100">
@@ -96,19 +100,19 @@
 {/if}
 <div class={loaded?"":"hidden"}>
 <DeckTools 
-		toggleEditMode={()=>{editMode=!editMode}}
 		editMode={editMode} 
 		triggerDelete={()=>{deleteCards()}} 
-		showStats={showStats}
+		searchNote={(q:string)=>{query=q?q:"all";initTable();}}
 />
 </div>
-<div class={"max-h-[50rem] flex-grow overflow-auto mb-10 w-full " + (loaded?"":" hidden")} bind:this={table}>
+<div class={"max-h-[50rem] flex-grow overflow-auto mb-10 w-full shadow-2xl " + (loaded?"":" hidden")} bind:this={table}>
 	<table class={"table table-zebra max-w-full" + (loaded?"":" hidden")}>
 	  <!-- head -->
-	  <thead class="sticky top-0 bg-base-100">
+	  <thead class="sticky -top-1 bg-base-100 h-full">
 		<tr class="w-full">
 		  <th class="max-w-8">ID</th>
 		  <th class="max-w-[12rem]">Card Preview</th>
+		  <th class="max-w-6"></th>
 		</tr>
 	  </thead>
 	  <tbody>
@@ -147,6 +151,3 @@
 	<NoteData nid={cur_nid} note_data={note_data} close={()=>{show_note=false}}/>
 {/if}
 
-{#if showStatsModal}
-<DeckStats did={parseInt($page.params.did)} close={()=>{showStatsModal = false;}}/>
-{/if}
