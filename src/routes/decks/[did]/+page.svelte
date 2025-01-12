@@ -10,43 +10,47 @@
 	import kiki_logo from "$lib/images/kiki_logo.png";
 
 	let notes : any[] = $state([{cid:0, title:"", selected:false}]);
-	let rows: any[] = $state([]);
-	let row_idx = 0;
+	let total = 0;
 	let editMode = $state(false);
 	let loaded = $state(false);
+	let row_loaded = $state(true);
 	let error = $state("");
 	let table: any = $state(null);
+	let row_count = 0;
 
-	function loadTable(){
-		for (let i = 0; i < 20; i ++){
-			if (row_idx >= notes.length) break;
-			rows.push(notes[row_idx]);
-			row_idx += 1;
-		}
+	const LOAD_NUM = 100; // Number of notes to load at a time. This is set to 50 in the backend
+	async function loadTable(){
+		row_loaded = false;
+		if (row_count >= total) return;
+		row_count += LOAD_NUM;
+		const res = await asyncGetDeckNotes(parseInt($page.params.did), row_count);
+		const new_notes = res.notes.map((note:any) => {
+			return {id: note.id, title: note.title, selected : false};
+		});
+		notes = notes.concat(new_notes);
+		row_loaded = true;
 	}
 	onMount(async () => {
 		loaded = false;
 		try{
-		const res = await asyncGetDeckNotes(parseInt($page.params.did));
-		notes = res.map((note:any) => {
-			return {id: note.id, title: note.title, selected : false};
-		});
-		loaded = true;
+			const res = await asyncGetDeckNotes(parseInt($page.params.did), 0);
+			total = res.total;
+			notes = res.notes.map((note:any) => {
+				return {id: note.id, title: note.title, selected : false};
+			});
+			loaded = true;
 		}catch(e){
 			error = "Oops! Something went wrong. Please try again later.";
 			console.log(e);
 		}
 
 		if (table) {
-			loadTable();
-			table.addEventListener("scroll", function () {
+			table.addEventListener("scroll", async () => {
 				if (
 					table.scrollTop + table.clientHeight >=
-					table.scrollHeight
+					(table.scrollHeight -1)
 				) {
-					if (rows.length <= notes.length) {
-						loadTable();
-					}
+					await loadTable();
 				}
 			});
 		}
@@ -98,24 +102,28 @@
 		showStats={showStats}
 />
 </div>
-<div class={"max-h-[50rem] flex-grow overflow-auto mb-10 " + (loaded?"":" hidden")} bind:this={table}>
-	<table class={"table table-zebra" + (loaded?"":" hidden")}>
+<div class={"max-h-[50rem] flex-grow overflow-auto mb-10 w-full " + (loaded?"":" hidden")} bind:this={table}>
+	<table class={"table table-zebra max-w-full" + (loaded?"":" hidden")}>
 	  <!-- head -->
 	  <thead class="sticky top-0 bg-base-100">
-		<tr>
+		<tr class="w-full">
 		  <th class="max-w-8">ID</th>
-		  <th class="max-w-[18rem]">Card Front</th>
-		  <th class={"max-w-6"}>Select</th>
+		  <th class="max-w-[12rem]">Card Preview</th>
 		</tr>
 	  </thead>
 	  <tbody>
-	  {#each rows as note, i}
-		<tr>
+	  {#each notes as note, i}
+		<tr class="w-full">
 			<td class="max-w-8"><a href="#" onclick={()=>{showNoteData(note.id)}} class="text-sky-500 hover:text-sky-700">{i+1}</a></td>
-			<td class="max-w-[18rem]"><p class="break-all">{note.title}</p></td>
+			<td class="max-w-[12rem]"><p class="break-all">{note.title}</p></td>
 			<td class={"max-w-6"}><input type="checkbox" class="checkbox bg-base-300" bind:checked={note.selected}/></td>
 		</tr>	
 	  {/each}
+	  {#if !row_loaded}
+		<tr>
+			<td class="max-w-8"><div class="skeleton max-w-[18rem] w-full"></div></td>
+		</tr>
+	  {/if}
 	  </tbody>
 	</table>
 </div>
