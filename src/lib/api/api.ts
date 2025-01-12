@@ -12,8 +12,8 @@ export const asyncGetDecks = async () => {
   return undefined;
 };
 
-export const asyncGetDeckNotes = async (did: Number) => {
-    const response = await fetch(SERVER_URL + `/deck/${did}/notes`, {
+export const asyncGetDeckNotes = async (did: Number, query: string, offset= 0) => {
+    const response = await fetch(SERVER_URL + `/deck/${did}/notes/${query}/${offset}`, {
         method: 'Get',
         credentials: 'include', // Include cookies for cross-origin requests
       });
@@ -258,3 +258,26 @@ export const asyncGetDeckStats = async (did: Number) => {
       }
       return undefined;
 }
+
+export const aysncGetTodayStudyLogs = async () => {
+    const response = await fetch(SERVER_URL + `/logs/today`, {
+        method: 'Get',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return undefined;
+}
+
+export const asyncLogout = async () => {
+    const response = await fetch(SERVER_URL + `/auth/logout`, {
+        method: 'Get',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return undefined;
+}
+
