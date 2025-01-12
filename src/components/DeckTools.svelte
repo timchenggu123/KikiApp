@@ -9,7 +9,7 @@
     });
 </script>
 
-<div class="sticky z-50 top-0 flex w-full items-center gap-2 pt-2 pb-2 mb-2 bg-base-100">
+<div class="flex w-full items-center gap-2 pt-2 pb-2 mb-2 bg-base-100">
     <KikiButton/>
     <div class="flex flex-grow justify-end gap-1">
         {#if localEditMode}

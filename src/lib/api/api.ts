@@ -258,3 +258,14 @@ export const asyncGetDeckStats = async (did: Number) => {
       }
       return undefined;
 }
+
+export const asyncLogout = async () => {
+    const response = await fetch(SERVER_URL + `/auth/logout`, {
+        method: 'Get',
+        credentials: 'include', // Include cookies for cross-origin requests
+      });
+      if (checkResponse(response)) {
+        return response.json();
+      }
+      return undefined;
+}
