@@ -67,16 +67,18 @@
 	}
 </script>  
 <HomeTools/>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div class="flex flex-row justify-between items-center px-2">
 	<h2 class="p-2 text-2xl text-bold">All Decks</h2> 
 	<!-- <button class="" ><p class="m-auto">+</p></button> -->
-	<details class="dropdown dropdown-end">
-		<summary class="btn btn-circle btn-sm text-xl text-center"><p class="m-auto">+</p></summary>
-		<ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-		  <li onclick={addNewDeck}><a>New</a></li>
-		  <li onclick={showUploadModal}><a>Upload</a></li>
+	<div class="dropdown dropdown-end">
+		<div tabindex=-1 class="btn btn-circle btn-sm text-xl text-center"><p class="m-auto">+</p></div>
+		<ul tabindex=-1 class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+		  <li onclick={addNewDeck}><p>New</p></li>
+		  <li onclick={showUploadModal}><p>Upload</p></li>
 		</ul>
-	</details>
+	</div>
 </div>	
 <ul class="menu bg-base-200 rounded-box w-full max-w-[30rem]">  
 {#each decks as deck}

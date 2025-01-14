@@ -41,20 +41,22 @@
 		showStatsModal = true;
 	}
 </script>
-
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div class="flex flex-row items-center gap-2 py-2">
     <KikiButton/>
     <div class="flex-grow flex flex-row justify-end items-center gap-2">
         <AddCard curCardID={curCardID} curDeck={curDeck}/>
         <div class="btn btn-circle text-2xl" onclick={getCardNote}>✎</div>
-        <div class="btn btn-circle text-2xl" aria-label="Suspend Card" onclick={suspendCard}>❅</div>
-        <details class="dropdown dropdown-end">
-            <summary class="btn btn-circle text-2xl" aria-label="More"><p class="m-auto">⋮</p></summary>
+        <div tabindex=-1 class="btn btn-circle text-2xl" aria-label="Suspend Card" onclick={suspendCard}>❅</div>
+        <div tabindex=-1 class="dropdown dropdown-end">
+            <div role="button" class="btn btn-circle text-2xl" aria-label="More"><p class="m-auto">⋮</p></div>
             <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow-xl">
-              <li onclick={showStats}><a>Stats</a></li>
-              <li onclick={deleteCard}><a>Delete</a></li>
+              <li onclick={showStats}><p>Stats</p></li>
+              <li onclick={deleteCard}><p>Delete</p></li>
             </ul>
-        </details>
+        </div>
     </div>
 </div>
 
