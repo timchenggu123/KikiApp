@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto, invalidateAll } from "$app/navigation";
 	import { asyncLogout } from "$lib/api/api";
+    import kiki_banner from "$lib/images/kiki_banner.png";
     
     let {closeDrawer} = $props();
     async function logout() {
@@ -33,7 +34,7 @@
 
 <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
     <!-- Sidebar content here -->
-    <li class="max-h-[15rem] h-full w-full pb-10"><div class="h-[8rem] bg-yellow-300"></div></li>
+    <li class="max-h-[15rem] h-full w-full pb-10"><div class="h-[8rem]"><img class="rounded-md" src={kiki_banner} alt="kiki_banner"/></div></li>
     <li><a onclick={redirectDecks}>Decks</a></li>
     <!-- <li><a onclick={redirectNotes}>Notes</a></li> -->
     <!-- <li><a onclick={redirectStats}>Study Stats</a></li> -->
