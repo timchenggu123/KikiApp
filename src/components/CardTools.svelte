@@ -49,10 +49,10 @@
     <div class="flex-grow flex flex-row justify-end items-center gap-2">
         <AddCard curCardID={curCardID} curDeck={curDeck}/>
         <div class="btn btn-circle text-2xl" onclick={getCardNote}>✎</div>
-        <div tabindex=-1 class="btn btn-circle text-2xl" aria-label="Suspend Card" onclick={suspendCard}>❅</div>
-        <div tabindex=-1 class="dropdown dropdown-end">
-            <div role="button" class="btn btn-circle text-2xl" aria-label="More"><p class="m-auto">⋮</p></div>
-            <ul class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow-xl">
+        <div class="btn btn-circle text-2xl" aria-label="Suspend Card" onclick={suspendCard}>❅</div>
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-circle text-2xl" aria-label="More"><p class="m-auto">⋮</p></div>
+            <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow-xl">
               <li onclick={showStats}><p>Stats</p></li>
               <li onclick={deleteCard}><p>Delete</p></li>
             </ul>
