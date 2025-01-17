@@ -10,6 +10,7 @@
 	
 	let decks: TypeDeck[] = $state([]);
 	let showConfig = $state(false);
+	let showAddMenu = $state(false);
 	let selectedDid = $state(-1);
 	let config: any = $state(undefined);
 
@@ -51,6 +52,7 @@
 	}
 
 	async function addNewDeck() {
+		showAddMenu = false;
 		const name = window.prompt("Enter the name of the deck");
 		if (name === null) {
 			return;
@@ -61,6 +63,7 @@
 	}
 
 	async function showUploadModal(){
+		showAddMenu = false;
 		const dialog = document.getElementById('uploadDeckMoal') as HTMLDialogElement;
 		dialog.showModal();
 		return;
@@ -72,12 +75,13 @@
 <div class="flex flex-row justify-between items-center px-2">
 	<h2 class="p-2 text-2xl text-bold">All Decks</h2> 
 	<!-- <button class="" ><p class="m-auto">+</p></button> -->
-	<div class="dropdown dropdown-end">
-		<div tabindex=-1 class="btn btn-circle btn-sm text-xl text-center"><p class="m-auto">+</p></div>
-		<ul tabindex=-1 class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+	<div class={"dropdown dropdown-end" + (showAddMenu?" dropdown-open":"")}>
+		<div onclick={()=>{showAddMenu = !showAddMenu}} role="button" class="btn btn-circle btn-sm text-xl text-center"><p class="m-auto">+</p></div>
+		<ul class="menu dropdown-content bg-base-100 rounded-box z-[50] w-52 p-2 shadow">
 		  <li onclick={addNewDeck}><p>New</p></li>
 		  <li onclick={showUploadModal}><p>Upload</p></li>
 		</ul>
+		<div class={"fixed left-0 top-0 h-screen w-screen z-[49]" + (showAddMenu?" ":" hidden")} onclick={()=>{showAddMenu = !showAddMenu}}></div>
 	</div>
 </div>	
 <ul class="menu bg-base-200 rounded-box w-full max-w-[30rem]">  

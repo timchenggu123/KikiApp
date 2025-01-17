@@ -5,17 +5,10 @@
 	import KikiButton from "./KikiButton.svelte";
     import DeckStats from "./DeckStats.svelte";
     let {curCardID, curDeck} = $props();
+    let showMoreMenu = $state(false);
 
     async function refresh() {
         location.reload();
-    }
-    async function deleteCard() {
-        // Ask the user for confirmation
-        if (!confirm("Are you sure you want to delete this card?")) {
-            return;
-        }
-        const res = await asyncRemoveCard(curCardID);
-        refresh();
     }
 
     let nid = $state(-1);
@@ -38,8 +31,18 @@
 
     let showStatsModal = $state(false); 
 	async function showStats(){
+        showMoreMenu = false;
 		showStatsModal = true;
 	}
+    async function deleteCard() {
+        showMoreMenu = false;
+        // Ask the user for confirmation
+        if (!confirm("Are you sure you want to delete this card?")) {
+            return;
+        }
+        const res = await asyncRemoveCard(curCardID);
+        refresh();
+    }
 </script>
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -50,12 +53,13 @@
         <AddCard curCardID={curCardID} curDeck={curDeck}/>
         <div class="btn btn-circle text-2xl" onclick={getCardNote}>✎</div>
         <div class="btn btn-circle text-2xl" aria-label="Suspend Card" onclick={suspendCard}>❅</div>
-        <div class="dropdown dropdown-end">
-            <div tabindex="0" role="button" class="btn btn-circle text-2xl" aria-label="More"><p class="m-auto">⋮</p></div>
-            <ul tabindex="0" class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow-xl">
+        <div class={"dropdown dropdown-end" + (showMoreMenu?" dropdown-open":"")}>
+            <div onclick={()=>{showMoreMenu = !showMoreMenu}} role="button" class="btn btn-circle text-2xl" aria-label="More"><p class="m-auto">⋮</p></div>
+            <ul class="menu dropdown-content bg-base-100 rounded-box z-[50] w-52 p-2 shadow-xl">
               <li onclick={showStats}><p>Stats</p></li>
               <li onclick={deleteCard}><p>Delete</p></li>
             </ul>
+            <div class={"fixed left-0 top-0 h-screen w-screen z-[49]" + (showMoreMenu?" ":" hidden")} onclick={()=>{showMoreMenu = !showMoreMenu}}></div>
         </div>
     </div>
 </div>
