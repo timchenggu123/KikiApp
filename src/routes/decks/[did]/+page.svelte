@@ -1,33 +1,32 @@
 <!-- src/DeckBrowser.svelte -->  
 <script lang="ts">  
-	import {asyncGetDeckNotes, asyncBatchRemoveNotes} from '$lib/api/api';
+	import {asyncGetDeckCards, asyncBatchRemoveNotes} from '$lib/api/api';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { asyncGetNote } from '$lib/api/api';
 	import DeckTools from '../../../components/DeckTools.svelte';
-	import NoteData from '../../../components/NoteData.svelte';
-	import DeckStats from '../../../components/DeckStats.svelte';	
+	import NoteData from '../../../components/NoteData.svelte';	
 	import kiki_logo from "$lib/images/kiki_logo.png";
 
 	const LOAD_NUM = 100; // Number of notes to load at a time. This is set to 50 in the backend
 
-	let notes : any[] = $state([{cid:0, title:"", selected:false}]);
-	let total = 0;
+	let cards : any[] = $state([]);
+	let total = $state(0);
 	let editMode = $state(false);
 	let loaded = $state(false);
 	let row_loaded = $state(true);
 	let error = $state("");
 	let table: any = $state(null);
-	let row_count = 0;
+	let row_count = $state(0);
 	let query = $state("all");
 
 	async function initTable(){
 		loaded = false;
 		try{
-			const res = await asyncGetDeckNotes(parseInt($page.params.did), query, 0);
+			const res = await asyncGetDeckCards(parseInt($page.params.did), query, 0);
 			total = res.total;
-			notes = res.notes.map((note:any) => {
-				return {id: note.id, title: note.title, selected : false};
+			cards = res.cards.map((card:any) => {
+				return {cid: card.cid, nid: card.nid, title: card.title, state: card.state, tmp: card.ord, selected : false};
 			});
 			loaded = true;
 		}catch(e){
@@ -40,11 +39,11 @@
 		row_loaded = false;
 		if (row_count >= total) return;
 		row_count += LOAD_NUM;
-		const res = await asyncGetDeckNotes(parseInt($page.params.did), query, row_count);
-		const new_notes = res.notes.map((note:any) => {
-			return {id: note.id, title: note.title, selected : false};
+		const res = await asyncGetDeckCards(parseInt($page.params.did), query, row_count);
+		const new_cards = res.cards.map((card:any) => {
+			return {cid: card.cid, nid: card.nid, title: card.title, state: card.state, tmp: card.ord, selected : false};
 		});
-		notes = notes.concat(new_notes);
+		cards = cards.concat(new_cards);
 		row_loaded = true;
 	}
 
@@ -64,13 +63,13 @@
 	});
 
 	async function deleteCards(){
-		const selectedNotes = notes.filter((note:any) => note.selected);
+		const selectedNotes = cards.filter((note:any) => note.selected);
 		const confirm = window.confirm(`Are you sure you want to delete ${selectedNotes.length} notes?`);
 		if (!confirm) return;
 		const nids = selectedNotes.map((note:any) => note.id);
-		const remainingNotes = notes.filter((note:any) => !note.selected);
+		const remainingNotes = cards.filter((note:any) => !note.selected);
 		await asyncBatchRemoveNotes(nids);
-		notes = remainingNotes;
+		cards = remainingNotes;
 		window.alert("Notes deleted successfully!");
 	}
 	let note_data = $state({Front:"", Back:""});
@@ -84,7 +83,7 @@
     }
 
 	$effect(() => {
-		const selected = notes.filter((note:any) => note.selected);
+		const selected = cards.filter((note:any) => note.selected);
 		if (selected.length == 0){
 			editMode = false;
 		} else{
@@ -92,6 +91,15 @@
 		}
 	});
 
+	function showState(state: Number){
+		if (state === 0){
+			return "○"
+		}else if (state == 1){
+			return "✔"
+		}else if (state == -1){
+			return "❅"
+		}
+	}
 </script> 
 {#if !loaded && error == ""}
 <div class="flex w-full items-center gap-2 pt-2 pb-2 mb-2 bg-base-100">
@@ -110,17 +118,21 @@
 	  <!-- head -->
 	  <thead class="sticky -top-1 bg-base-100 h-full">
 		<tr class="w-full">
-		  <th class="max-w-8">ID</th>
-		  <th class="max-w-[12rem]">Card Preview</th>
-		  <th class="max-w-6"></th>
+			<th class="max-w-6">#</th>
+			<th class="max-w-6">State</th>
+			<th class="max-w-[10rem]">Card Preview</th>
+			<th class="max-w-8">tmp</th>
+			<th class="max-w-6"></th>
 		</tr>
 	  </thead>
 	  <tbody>
-	  {#each notes as note, i}
+	  {#each cards as card, i}
 		<tr class="w-full">
-			<td class="max-w-8"><a href="#" onclick={()=>{showNoteData(note.id)}} class="text-sky-500 hover:text-sky-700">{i+1}</a></td>
-			<td class="max-w-[12rem]"><p class="break-all">{note.title}</p></td>
-			<td class={"max-w-6"}><input type="checkbox" class="checkbox bg-base-300" bind:checked={note.selected}/></td>
+			<td class="max-w-6">{i}</td>
+			<td class="max-w-6"><p class={"text-md" + (card.state < 0?" text-blue-400":"")}>{showState(card.state)}</p></td>
+			<td class="max-w-[10rem]" onclick={()=>{showNoteData(card.nid)}} role="button"><p class="break-all">{card.title}</p></td>
+			<td class="max-w-8"><p>{card.tmp + 1}</p></td>
+			<td class={"w-6"}><input type="checkbox" class="checkbox bg-base-300" bind:checked={card.selected}/></td>
 		</tr>	
 	  {/each}
 	  {#if !row_loaded}

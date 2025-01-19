@@ -12,8 +12,8 @@ export const asyncGetDecks = async () => {
   return undefined;
 };
 
-export const asyncGetDeckNotes = async (did: Number, query: string, offset= 0) => {
-    const response = await fetch(SERVER_URL + `/deck/${did}/notes/${query}/${offset}`, {
+export const asyncGetDeckCards = async (did: Number, query: string, offset= 0) => {
+    const response = await fetch(SERVER_URL + `/deck/${did}/cards/${query}/${offset}`, {
         method: 'Get',
         credentials: 'include', // Include cookies for cross-origin requests
       });
