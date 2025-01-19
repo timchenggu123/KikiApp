@@ -114,12 +114,12 @@
 		}
 	});
 
-	function showState(state: Number){
+	function showState(state: number){
 		if (state === 0){
 			return "○"
-		}else if (state == 1){
+		}else if (state > 0){
 			return "✔"
-		}else if (state == -1){
+		}else if (state < 0){
 			return "❅"
 		}
 	}
