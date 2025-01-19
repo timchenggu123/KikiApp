@@ -1,6 +1,6 @@
 <!-- src/DeckBrowser.svelte -->  
 <script lang="ts">  
-	import {asyncGetDeckCards, asyncBatchRemoveNotes} from '$lib/api/api';
+	import {asyncGetDeckCards, asyncBatchRemoveNotes, asyncSuspendCards, asyncUnsuspendCards} from '$lib/api/api';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { asyncGetNote } from '$lib/api/api';
@@ -63,15 +63,38 @@
 	});
 
 	async function deleteCards(){
-		const selectedNotes = cards.filter((note:any) => note.selected);
-		const confirm = window.confirm(`Are you sure you want to delete ${selectedNotes.length} notes?`);
+		const selectedCards = cards.filter((note:any) => note.selected);
+		const confirm = window.confirm(`Are you sure you want to delete ${selectedCards.length} cards?`);
 		if (!confirm) return;
-		const nids = selectedNotes.map((note:any) => note.id);
-		const remainingNotes = cards.filter((note:any) => !note.selected);
-		await asyncBatchRemoveNotes(nids);
+		const cids = selectedCards.map((card:any) => card.id);
+		const remainingNotes = cards.filter((card:any) => !card.selected);
+		await asyncBatchRemoveNotes(cids);
 		cards = remainingNotes;
-		window.alert("Notes deleted successfully!");
+		window.alert("Cards deleted successfully!");
 	}
+
+	async function suspendCards(){
+		const selectedCards = cards.filter((card:any) => card.selected);
+		const suspendedCards = selectedCards.filter((card:any) => card.state == -1);
+		if (suspendedCards.length == selectedCards.length){
+			const confirm = window.confirm(`Are you sure you want to unsuspend ${selectedCards.length} cards?`);
+			if (!confirm) return;
+			await asyncUnsuspendCards(suspendedCards.map((card:any) => card.cid));
+			for (let i = 0; i < selectedCards.length; i++){
+				selectedCards[i].state = 0;
+			}
+			return;
+		}
+		const unsuspendedCards = selectedCards.filter((note:any) => note.state != -1);
+		const confirm = window.confirm(`Are you sure you want to suspend ${unsuspendedCards.length} card?`);
+		if (!confirm) return;
+		await asyncSuspendCards(unsuspendedCards.map((card:any) => card.cid));
+		for (let i = 0; i < selectedCards.length; i++){
+				selectedCards[i].state = -1;
+			}
+		window.alert("Notes suspended successfully!");
+	}
+
 	let note_data = $state({Front:"", Back:""});
 	let show_note = $state(false);
 	let cur_nid = $state(-1);
@@ -110,6 +133,7 @@
 <DeckTools 
 		editMode={editMode} 
 		triggerDelete={()=>{deleteCards()}} 
+		tiggerSuspend={()=>{suspendCards()}}
 		searchNote={(q:string)=>{query=q?q:"all";initTable();}}
 />
 </div>

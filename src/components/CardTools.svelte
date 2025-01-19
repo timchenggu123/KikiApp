@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AddCard from "./AddCard.svelte";
-    import { asyncGetCardNote, asyncRemoveCard, asyncSuspendCard } from "$lib/api/api";
+    import { asyncGetCardNote, asyncRemoveCard, asyncSuspendCards } from "$lib/api/api";
 	import EditCard from "./EditCard.svelte";
 	import KikiButton from "./KikiButton.svelte";
     import DeckStats from "./DeckStats.svelte";
@@ -25,7 +25,7 @@
         if (!confirm("Are you sure you want to suspend this card?")) {
             return;
         }
-        const res = await asyncSuspendCard(curCardID);
+        const res = await asyncSuspendCards([curCardID]);
         refresh();
     }
 

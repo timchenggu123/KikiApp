@@ -151,13 +151,13 @@ export const asyncRemoveCard = async (cid: Number) => {
       return undefined;
 }
 
-export const asyncSuspendCard = async (cid: Number) => {
-    const response = await fetch(SERVER_URL + `/card/suspend`, {
+export const asyncSuspendCards = async (cids: Number[]) => {
+    const response = await fetch(SERVER_URL + `/cards/suspend`, {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json',
           },
-        body: JSON.stringify({cid}),
+        body: JSON.stringify({cids}),
         credentials: 'include', // Include cookies for cross-origin requests
       });
       if (checkResponse(response)) {
@@ -165,6 +165,22 @@ export const asyncSuspendCard = async (cid: Number) => {
       }
       return undefined;
 }
+
+export const asyncUnsuspendCards = async (cids: Number[]) => {
+  const response = await fetch(SERVER_URL + `/cards/unsuspend`, {
+      method: 'Post',
+      headers: {
+          'Content-Type': 'application/json',
+        },
+      body: JSON.stringify({cids}),
+      credentials: 'include', // Include cookies for cross-origin requests
+    });
+    if (checkResponse(response)) {
+      return response.json();
+    }
+    return undefined;
+}
+
 
 export const asyncBatchRemoveNotes = async (nids: Number[]) => {
     const response = await fetch(SERVER_URL + `/note/batchremove`, {

@@ -1,9 +1,8 @@
 <script lang="ts">
 	import DrawerButton from "./DrawerButton.svelte";
     import KikiButton from "./KikiButton.svelte";
-    import { page } from '$app/stores';
 
-    let {editMode, triggerDelete, searchNote} = $props();
+    let {editMode, triggerDelete, tiggerSuspend, searchNote} = $props();
     let localEditMode = $state(editMode);
     let query = $state("");
     $effect(() => {
@@ -17,6 +16,7 @@
     <div class="flex flex-grow justify-end gap-1">
         {#if localEditMode}
             <div class="btn w-20 bg-red-600" aria-label="Delete Cards" onclick={triggerDelete}>Delete</div>
+            <div class="btn w-20 bg-blue-500" aria-label="Toggle Suspend Cards" onclick={tiggerSuspend}>Suspend</div>
         {/if}
 
         {#if !localEditMode}
