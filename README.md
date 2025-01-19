@@ -1,6 +1,8 @@
 ![Banner](img/KIKI.png)
 # Kiki Flashcards App
-Kiki is a flashcard app based on the famous [Anki Desktop App](https://apps.ankiweb.net/). Kiki allows user to create, manage, and edit flashcards, and is fully compatible with Anki shared decks. 
+Kiki is a flashcard app based on the famous [Anki Desktop App](https://apps.ankiweb.net/). Kiki allows user to create, manage, and edit flashcards, and is fully compatible with Anki shared decks. Visit Kiki at kiki.timgu.me.
+
+*Note, this repository contains the frontend code for the Kiki Flashcards App. The backend code can be found [here](github.com/timchenggu123/kiki-be).*
 
 ## Features
 ### - Compatible with Anki cards natively, with images and audio support!
