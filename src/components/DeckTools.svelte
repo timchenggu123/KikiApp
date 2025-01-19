@@ -18,7 +18,10 @@
         {#if localEditMode}
             <div class="btn w-20 bg-red-600" aria-label="Delete Cards" onclick={triggerDelete}>Delete</div>
         {/if}
-		<button class="btn w-20" onclick={()=>{showSearch=true}}>Search</button>
+
+        {#if !localEditMode}
+            <button class="btn w-20" onclick={()=>{showSearch=true}}>Search</button>
+        {/if}
         <DrawerButton/>
     </div>
 </div>
