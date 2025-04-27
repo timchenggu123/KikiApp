@@ -86,7 +86,7 @@
 {/if}
 {#if no_card}
 <div class="h-full max-h-35 w-full flex justify-center items-center">
-    <p class="text-2xl">🎉Amazing!! You've done it again! Keep it up~ 🎉</p>
+    <p class="text-2xl">🎉 Wowww！You have done it all! Go treat yourself~ 🎉</p>
 </div>
 {/if}
 <div class=" p-3 w-full mb-7">
