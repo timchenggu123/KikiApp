@@ -76,7 +76,7 @@
     }
 </script>
 <CardTools curCardID={curCardID} curDeck={did}/>
-<div class="w-full h-5 rounded-md bg-slate-700 mb-4 shadow-xl border-b-2 border-b-slate-500 border-r-2 border-r-slate-500 flex gap-4 px-4">
+<div class="w-full h-5 rounded-md bg-base-700 mb-4 shadow-xl border-b-2 border-b-base-500 border-r-2 border-r-base-500 flex gap-4 px-4">
     <div class="text-sm">New:{unknown}</div>
     <div class="text-sm">Learning:{learning}</div>
     <div class="text-sm">Review:{review}</div>
